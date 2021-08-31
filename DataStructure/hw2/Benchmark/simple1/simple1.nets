@@ -1,0 +1,17 @@
+
+NumNet : 7
+
+VDD
+	o0 o1 o2 o3 o4 o5
+GND
+	o0 o1 o2 o3 o4 o5
+n1
+	o5 o4 o0
+n2
+	o1 o3 o4 o5
+n3
+	o4 o2
+n4
+	o3 o5
+n5
+	o5 o0 o2 o1

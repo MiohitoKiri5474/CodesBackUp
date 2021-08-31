@@ -1,0 +1,11 @@
+
+NumNet : 4
+
+NET1
+	n1 n3 n5
+NET2
+	n1 n6
+NET3
+	n4 n2
+NET4
+	n3 n4 n2 n1

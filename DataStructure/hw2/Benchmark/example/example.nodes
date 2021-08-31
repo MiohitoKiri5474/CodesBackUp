@@ -1,0 +1,26 @@
+
+NumNode : 6
+
+name : n1
+dimension : 6 4
+relation : X n2 n3
+
+name : n2
+dimension : 4 6
+relation : n1 X X
+
+name : n3
+dimension : 2 4
+relation : n1 n4 n6
+
+name : n4
+dimension : 2 3
+relation : n3 n5 X
+
+name : n5
+dimension : 4 4
+relation : n4 X X
+
+name : n6
+dimension : 8 2
+relation : n3 X X

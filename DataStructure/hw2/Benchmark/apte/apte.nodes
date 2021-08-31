@@ -1,0 +1,38 @@
+
+NumNode : 9
+
+name : cc_12
+dimension : 1731 3318
+relation : X cc_13 cc_11
+
+name : cc_21
+dimension : 2029 2876
+relation : cc_13 cc_14 X
+
+name : cc_24
+dimension : 3135 1861
+relation : cc_23 X X
+
+name : cc_14
+dimension : 3123 1839
+relation : cc_21 X cc_22
+
+name : clk
+dimension : 280 843
+relation : cc_13 X X
+
+name : cc_23
+dimension : 2168 2692
+relation : cc_11 cc_24 X
+
+name : cc_13
+dimension : 4151 1383
+relation : cc_12 clk cc_21
+
+name : cc_22
+dimension : 3123 1868
+relation : cc_14 X X
+
+name : cc_11
+dimension : 1582 3631
+relation : cc_12 cc_23 X

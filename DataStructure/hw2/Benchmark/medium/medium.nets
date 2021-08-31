@@ -1,0 +1,29 @@
+
+NumNet : 13
+
+CLK
+	m7 m8 m9 m14 m15
+RST
+	m7 m8 m9 m14 m15
+VDD
+	m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16
+GND
+	m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16
+BIT1
+	m1 m2 m3 m5 m6 m11 m12
+BIT2
+	m6 m7
+BIT3
+	m3 m4 m5
+BIT4
+	m15 m16
+BIT5
+	m7 m8 m9 m10 m14
+BIT6
+	m8 m9
+BIT7
+	m11 m13 m15
+BIT8
+	m4 m10
+CLN
+	m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16

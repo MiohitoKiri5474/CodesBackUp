@@ -1,0 +1,11 @@
+NumVertices: 10
+A  0  3
+B  1  2
+C  2  4
+D  2  0
+E  3  2
+F  4  5
+G  5  3
+H  5  1
+I  6  4
+J  7  2

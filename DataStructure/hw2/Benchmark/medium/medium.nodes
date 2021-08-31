@@ -1,0 +1,66 @@
+
+NumNode : 16
+
+name : m1
+dimension : 20 30
+relation : X m2 m10
+
+name : m2
+dimension : 24 24
+relation : m1 m3 m7
+
+name : m3
+dimension : 22 32
+relation : m2 m4 m6
+
+name : m4
+dimension : 10 10
+relation : m3 X m5
+
+name : m5
+dimension : 8 10
+relation : m4 X X
+
+name : m6
+dimension : 34 22
+relation : m3 X X
+
+name : m7
+dimension : 24 26
+relation : m2 m8 m9
+
+name : m8
+dimension : 20 16
+relation : m7 X X
+
+name : m9
+dimension : 22 16
+relation : m7 X X
+
+name : m10
+dimension : 20 40
+relation : m1 m11 m14
+
+name : m11
+dimension : 12 12
+relation : m10 m12 m13
+
+name : m12
+dimension : 16 10
+relation : m11 X X
+
+name : m13
+dimension : 12 10
+relation : m11 X X
+
+name : m14
+dimension : 16 14
+relation : m10 m15 m16
+
+name : m15
+dimension : 4 20
+relation : m14 X X
+
+name : m16
+dimension : 30 10
+relation : m14 X X

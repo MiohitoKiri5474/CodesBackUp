@@ -1,0 +1,26 @@
+
+NumNode : 6
+
+name : o0
+dimension : 8 8
+relation : X o1 o3
+
+name : o1
+dimension : 6 4
+relation : o0 o2 X
+
+name : o2
+dimension : 4 10
+relation : o1 X X
+
+name : o3
+dimension : 10 6
+relation : o0 o4 o5
+
+name : o4
+dimension : 6 6
+relation : o3 X X
+
+name : o5
+dimension : 6 6
+relation : o3 X X 
