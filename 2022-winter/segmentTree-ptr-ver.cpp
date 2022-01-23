@@ -3,13 +3,13 @@
 
 using namespace std;
 
-struct node{
+struct node {
 	node *l, *r;
 	int value;
 
 	node ( int _val ): l ( nullptr ), r ( nullptr ), value ( _val ) {}
 
-	inline void up ( void ){
+	inline void up ( void ) {
 		value = -1;
 		if ( l )
 			value = max ( value, l -> value );
@@ -18,7 +18,7 @@ struct node{
 	}
 } *seg = nullptr;
 
-void build ( int l, int r, node *&o ){
+void build ( int l, int r, node *&o ) {
 	o = new node ( 0 );
 	if ( l == r )
 		return;
@@ -29,7 +29,7 @@ void build ( int l, int r, node *&o ){
 	o -> up();
 }
 
-void update ( int l, int r, int index, int value, node *&o ){
+void update ( int l, int r, int index, int value, node *&o ) {
 	if ( l == r )
 		o -> value = value;
 	else{
@@ -43,7 +43,7 @@ void update ( int l, int r, int index, int value, node *&o ){
 	}
 }
 
-int query ( int l, int r, int nowL, int nowR, node *o ){
+int query ( int l, int r, int nowL, int nowR, node *o ) {
 	if ( l <= nowR && nowR <= r )
 		return o -> value;
 	int mid = ( nowL + nowR ) >> 1;
@@ -55,7 +55,7 @@ int query ( int l, int r, int nowL, int nowR, node *o ){
 	return max ( query ( l, r, nowL, mid, o -> l ), query ( l, r, mid + 1, nowR, o -> r ) );
 }
 
-int main(){
+int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
@@ -70,13 +70,13 @@ int main(){
 
 	// type 1: 單點修改
 	// type 2: 區間查詢最大值
-	while ( m-- ){
+	while ( m-- ) {
 		cin >> type;
-		if ( type == 1 ){
+		if ( type == 1 ) {
 			cin >> l >> in;
 			update ( 1, n, l, in, seg );
 		}
-		else if ( type == 2 ){
+		else if ( type == 2 ) {
 			cin >> l >> r;
 			cout << query ( l, r, 1, n, seg ) << '\n';
 		}

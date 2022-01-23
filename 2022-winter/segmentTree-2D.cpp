@@ -80,16 +80,16 @@ template < class T > using MinHeap = priority_queue < T, vec < T >, greater < T 
 // let's go coding and have fun!
 // I can solve this problem!
 
-struct node1D{
+struct node1D {
     int seg[maxN << 2];
 	void update ( int, int, int, int, int );
     int query ( int, int, int, int, int );
 };
 
-void node1D::update ( int l, int r, int index, int value, int n ){
+void node1D::update ( int l, int r, int index, int value, int n ) {
 	if ( l == r )
 		seg[n] = value;
-	else{
+	else {
 		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		if ( index <= mid )
 			update ( l, mid, index, value, leftSon );
@@ -100,7 +100,7 @@ void node1D::update ( int l, int r, int index, int value, int n ){
 	}
 }
 
-int node1D::query ( int l, int r, int nowL, int nowR, int n ){
+int node1D::query ( int l, int r, int nowL, int nowR, int n ) {
 	if ( l <= nowL && nowR <= r )
 		return seg[n];
 	int mid = ( nowL + nowR ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
@@ -112,7 +112,7 @@ int node1D::query ( int l, int r, int nowL, int nowR, int n ){
 	return max ( query ( l, r, nowL, mid, leftSon ), query ( l, r, mid + 1, nowR, rightSon ) );
 }
 
-struct node2D{
+struct node2D {
 	node1D seg[maxN << 2];
 	int n;
 
@@ -121,10 +121,10 @@ struct node2D{
 	node1D merge ( int, int, int, int, int );
 };
 
-void node2D::update ( int l, int r, int idX, int idY, int value, int n ){
+void node2D::update ( int l, int r, int idX, int idY, int value, int n ) {
 	if ( l == r )
 		seg[n].update ( 1, n, idY, value, 1 );
-	else{
+	else {
 		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		if ( idX <= mid )
 			update ( l, mid, idX, idY, value, leftSon );
@@ -135,10 +135,10 @@ void node2D::update ( int l, int r, int idX, int idY, int value, int n ){
 	}
 }
 
-int node2D::query ( int l, int r, int u, int d, int nowL, int nowR, int n ){
+int node2D::query ( int l, int r, int u, int d, int nowL, int nowR, int n ) {
 }
 
-node1D node2D::merge ( int a, int b, int l, int r, int n ){
+node1D node2D::merge ( int a, int b, int l, int r, int n ) {
 }
 
 int main(){

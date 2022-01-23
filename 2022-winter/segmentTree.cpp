@@ -6,11 +6,11 @@ using namespace std;
 #define maxN 100005
 int seg[maxN << 2];
 
-void update ( int l, int r, int index, int value, int n ){
+void update ( int l, int r, int index, int value, int n ) {
 	// 當前區間左邊界、當前區間右邊界、欲更新位置、欲更新位置之值、目前節點編號
 	if ( l == r )
 		seg[n] = value;
-	else{
+	else {
 		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		// int mid = ( l + r ) / 2, leftSon = n * 2, rightSon = leftSon + 1;
 		if ( index <= mid ) // case 1
@@ -37,7 +37,7 @@ l 	 mid    r
 	  index
 */
 
-int query ( int l, int r, int nowL, int nowR, int n ){
+int query ( int l, int r, int nowL, int nowR, int n ) {
 	// 欲查詢範圍左邊界、欲查詢範圍右邊界、當前區間左邊界、當前區間右邊界、當前區間編號
 	if ( l <= nowL && nowR <= r )
 		return seg[n];
@@ -77,7 +77,7 @@ int data[maxN];
 void build ( int l, int r, int n ){
 	if ( l == r )
 		seg[n] = data[l];
-	else{
+	else {
 		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		build ( l, mid, leftSon );
 		build ( mid + 1, r, rightSon );
@@ -85,19 +85,19 @@ void build ( int l, int r, int n ){
 	}
 }
 
-int main(){
+int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
 	int n, m, l, r, value, type;
 	cin >> n >> m;
-	for ( int i = 1 ; i <= n ; i++ ){
+	for ( int i = 1 ; i <= n ; i++ ) {
 		cin >> data[i];
 	}
 	build ( 1, n, 1 );
 
-	while ( m-- ){
+	while ( m-- ) {
 		cin >> type >> l >> r;
 		if ( type == 1 )
 			update ( 1, n, l, r, 1 );

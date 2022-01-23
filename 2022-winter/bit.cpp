@@ -8,14 +8,14 @@ using namespace std;
 int bit[maxN], basic[maxN];
 int n;
 
-void add ( int idx, int delta ){
-	while ( idx <= n ){
+void add ( int idx, int delta ) {
+	while ( idx <= n ) {
 		bit[idx] += delta;
 		idx += idx & -idx;
 	}
 }
 
-int sum ( int idx ){
+int sum ( int idx ) {
 	int res = 0;
 	while ( idx ){
 		res += bit[idx];
@@ -25,21 +25,21 @@ int sum ( int idx ){
 	return res;
 }
 
-int main(){
+int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
 	int m, l, r, type;
 	cin >> n >> m;
-	for ( int i = 1 ; i <= n ; i++ ){
+	for ( int i = 1 ; i <= n ; i++ ) {
 		cin >> basic[i];
 		add ( i, basic[i] );
 	}
 
-	while ( m-- ){
+	while ( m-- ) {
 		cin >> type >> l >> r;
-		if ( type == 1 ){
+		if ( type == 1 ) {
 			add ( l, r - basic[l] );
 			basic[l] = r;
 		}

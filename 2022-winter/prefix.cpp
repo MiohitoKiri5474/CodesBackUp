@@ -7,18 +7,18 @@ using namespace std;
 
 int pre[maxN];
 
-int main(){
+int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
 	int n, m, l, r;
 	cin >> n >> m;
-	for ( int i = 1 ; i < n ; i++ ){
+	for ( int i = 1 ; i < n ; i++ ) {
 		cin >> pre[i];
 		pre[i] += pre[i - 1];
 	}
-	while ( m-- ){
+	while ( m-- ) {
 		cin >> l >> r;
 		cout << pre[r] - pre[l - 1] << '\n';
 	}

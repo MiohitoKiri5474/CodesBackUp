@@ -10,8 +10,8 @@ typedef pair < int, int > pii;
 
 pii seg[maxN << 2];
 
-void push ( int n ){
-	if ( seg[n].S ){
+void push ( int n ) {
+	if ( seg[n].S ) {
 		int leftSon = n << 1, rightSon = n << 1 | 1, value = seg[n].S;
 		seg[n].S = 0;
 		seg[leftSon].F += value, seg[rightSon].F += value;
@@ -19,10 +19,10 @@ void push ( int n ){
 	}
 }
 
-void update ( int l, int r, int index, int value, int n ){
+void update ( int l, int r, int index, int value, int n ) {
 	if ( l == r )
 		seg[n].F = value;
-	else{
+	else {
 		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		push ( n ); // lazy tag
 		if ( index <= mid )
@@ -49,14 +49,14 @@ int query ( int l, int r, int nowL, int nowR, int n ){
 void modify ( int l, int r, int nowL, int nowR, int value, int n ){
 	if ( l <= nowL && nowR <= r )
 		seg[n].F += value, seg[n].S += value;
-	else{
+	else {
 		int mid = ( nowL + nowR ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
 		push ( n ); // lazy tag
 		if ( r <= mid )
 			modify ( l, r, nowL, mid, value, leftSon );
 		else if ( mid < l )
 			modify ( l, r, mid + 1, nowR, value, rightSon );
-		else{
+		else {
 			modify ( l, r, nowL, mid, value, leftSon );
 			modify ( l, r, mid + 1, nowR, value, rightSon );
 		}
@@ -78,17 +78,17 @@ int main(){
 		update ( 1, n, i, in, 1 );
 	}
 
-	while ( m-- ){
+	while ( m-- ) {
 		// type 1: 單點修改
 		// type 2: 區間查詢
 		// type 3: 區間修改
 		cin >> type >> l >> r;
-		if ( type == 1 ){
+		if ( type == 1 ) {
 			update ( 1, n, l, r, 1 );
 		}
 		else if ( type == 2 )
 			cout << query ( l, r, 1, n, 1 ) << '\n';
-		else{
+		else {
 			cin >> in;
 			modify ( l, r, 1, n, in, 1 );
 		}
