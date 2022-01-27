@@ -23,3 +23,5 @@ int main() {
 		cout << pre[r] - pre[l - 1] << '\n';
 	}
 }
+
+
