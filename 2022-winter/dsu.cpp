@@ -37,6 +37,9 @@ int dsu::find ( int n ) {
 // basic version
 inline void dsu::Union1 ( int a, int b ) {
 	dis[find ( a )] = find ( b );
+	// find ( a ) == 1
+	// find ( b ) == 1
+	// dis[1] = 1;
 }
 
 // Union by Rank version

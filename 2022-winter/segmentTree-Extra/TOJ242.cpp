@@ -143,6 +143,11 @@ void update ( int l, int r, int nowL, int nowR, int value, node *&o ) {
 			delete o -> r;
 		o -> r = new node ( o -> val.value );
 	}
+	/* L     R
+	 * |_____|
+	 *   |__|
+	 *nowL  nowR
+	 */
 	if ( l <= nowL && nowR <= r ) {
 		delete o;
 		o = new node ( value );

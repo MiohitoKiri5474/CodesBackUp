@@ -26,12 +26,20 @@ struct node {
 int basic[maxN];
 
 inline node merge ( node L, node R ) {
+	// res 
+	// |_____|_____|
+	//   L     R
+	//     |_| <- L.back
+	//       |___| <- R.front
     node res;
 	res.front = L.front, res.back = R.back, res.ma = ( L.ma.sz > R.ma.sz ? L.ma : R.ma );
 
 	if ( basic[L.back.r] + 1 == basic[R.front.l] ) {
 		piece swp = piece { L.back.l, R.front.r, R.front.r - L.back.l + 1 };
 
+		// |_____|
+		//  R
+		// |_____| <- R.front && R.back
 		if ( L.front == L.back )
 			res.front = swp;
 		if ( R.front == R.back )

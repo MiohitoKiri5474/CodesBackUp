@@ -34,6 +34,12 @@ void build ( int l, int r, node *&o ) {
 void update ( int l, int r, int index, int value, node *&o ) {
 	// 把需要修改的節點在修改前先開一個新位置出來
 	o = new node ( o );
+	/*
+	node *swp;
+	swp -> l = o -> l;
+	swp -> r = o -> r;
+	...
+	*/
 	if ( l == r )
 		o -> value = value;
 	else {

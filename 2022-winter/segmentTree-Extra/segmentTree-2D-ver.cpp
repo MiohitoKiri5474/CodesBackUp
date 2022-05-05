@@ -92,7 +92,7 @@ void node2::update ( int u, int d, int x, int y, int value, int n ) {
 		else
 			update ( mid + 1, d, x, y, value, rightSon );
 
-		merge ( seg[n], seg[leftSon], seg[rightSon], 1, len, 1 );
+		seg[n].merge ( seg[leftSon], seg[rightSon], 1, len, 1 );
 	}
 }
 
