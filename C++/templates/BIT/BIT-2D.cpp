@@ -21,3 +21,8 @@ inline int sum ( int x, int y, int in ){
 
 	return res;
 }
+
+/*
+ * ( 0, 0 ) ~ ( x, y )
+ * ( 1, 2 ) ~ ( 4, 5 )
+ */

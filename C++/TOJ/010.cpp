@@ -130,3 +130,6 @@ int main(){
 		}
 	}
 }
+
+// Edge ( u, v, w )
+// w_i - dist ( u_i, v_i )
