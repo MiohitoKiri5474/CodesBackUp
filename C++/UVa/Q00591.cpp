@@ -158,18 +158,31 @@ template < class T > using MinHeap = priority_queue < T, vec < T >, greater < T 
              `--`           s:```.../s`//.........-/+.....syyyyyyyyyyhyyyyyyyy::syyyyyyyyyyyyyyyyyyyyh/:/hyyyhyyyyyyyyy.:-/..........+oo-``````o/    `:+/`                
 */
 
+vector < int > lib;
 int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	
-	int x1, x2, y1, y2;
-	while ( cin >> y1 >> y2 >> x1 >> x2 ) {
-		if ( !x1 && !x2 && !y1 && !y2 ) // my ver.
-			break;
-		if ( !( x1 + x2 + y1 + y2 ) ) // Leo ver.
-			break;
+	int n, ans, t = 0;
+	double avg;
+	while ( cin >> n ) {
+		if ( !n )
+			return 0;
+
+        lib.resize ( n );
+        avg = 0.0;
+        ans = 0;
+        for ( auto &i: lib ) {
+            cin >> i;
+            avg += i * 1.0;
+        }
+
+        avg /= n * 1.0;
+        for ( auto i: lib )
+            ans += abs ( i - avg );
+        ans >>= 1;
+		t++;
+        cout << "Set #" << t << "\nThe minimum number of moves is " << ans << ".\n\n";
 	}
 }
-
