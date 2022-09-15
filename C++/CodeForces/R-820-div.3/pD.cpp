@@ -118,44 +118,39 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-inline bool cmp ( pii a, pii b ) {
-	if ( a.F == b.F )
-		return a.S < b.S;
-	return a.F > b.F;
-}
-
 int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	int t, n, l, r;
-	string str;
-	vector < pii > lib;
-	vector < int > print;
+	int t, n, cnt;
+	vector < int > x, y, lib;
 	cin >> t;
 	while ( t-- ) {
-		cin >> str;
-		n = str.size();
+		cin >> n;
+		x.resize ( n );
+		y.resize ( n );
+		for ( auto &i: x )
+			cin >> i;
+		for ( auto &i: y )
+			cin >> i;
 		lib.clear();
-		print.clear();
-		for ( int i = 1 ; i <= n ; i++ )
-			lib.pb ( pii ( str[i - 1] - 'a' + 1, i ) );
+		for ( int i = 0 ; i < n ; i++ )
+			lib.pb ( y[i] - x[i] );
 
-		l = str[0] - 'a' + 1, r = str[n - 1] - 'a' + 1;
-		if ( str[0] > str[n - 1] ) {
-			sort ( lib.begin(), lib.end(), cmp );
-			swap ( l, r );
+		cnt = 0;
+		sort ( lib.begin(), lib.end() );
+		reverse ( lib.begin(), lib.end() );
+		for ( int i = 0, j = n - 1 ; i < n ; i++ ) {
+			while ( j > i && lib[j] + lib[i] < 0 )
+				j--;
+
+			if ( j <= i )
+				break;
+
+			cnt++, j--;
 		}
-		else
-			sort ( lib.begin(), lib.end() );
 
-		for ( auto i: lib )
-			if ( l <= i.F && i.F <= r )
-				print.pb ( i.S );
-
-		cout << abs ( str[n - 1] - str[0] ) << ' ' << print.size() << '\n';
-		for ( auto i: print )
-			cout << i << " \n"[i == print.back()];
+		cout << cnt << endl;
 	}
 }
