@@ -38,10 +38,13 @@ init:
 MERGE:
     clrf WREG
     addwf INDF0, W
+    clrf TRISC
     cpfslt INDF1
 	call PUSH_A
     cpfsgt INDF1
 	call PUSH_B
+    btfsc TRISC, 0
+	call PUSH_A
 	
     clrf TRISC
     clrf WREG
@@ -63,7 +66,7 @@ PUSH_A:
     movwf POSTINC2
     
     incf TRISA
-    ; incf TRISC
+    incf TRISC
     return
     
 PUSH_B:
@@ -72,12 +75,32 @@ PUSH_B:
     movwf POSTINC2
     
     incf TRISB
-    ; incf TRISC
+    incf TRISC
     return
     
 CLEAR_A:
+LOOP_A:
+    clrf WREG
+    addwf POSTINC0, W
+    movwf POSTINC2
+    
+    incf TRISA
+    movlw 0x05
+    cpfseq TRISA
+	goto LOOP_A
+    return
 
 CLEAR_B:
+LOOP_B:
+    clrf WREG
+    addwf POSTINC1, W
+    movwf POSTINC2
+    
+    incf TRISB
+    movlw 0x05
+    cpfseq TRISB
+	goto LOOP_B
+    return
     
 endl:
     clrf WREG
@@ -89,4 +112,3 @@ endl:
     cpfseq TRISB
 	call CLEAR_B
     end
-
