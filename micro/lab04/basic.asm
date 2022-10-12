@@ -34,8 +34,11 @@ DIST macro x1, y1, x2, y2, hi, lo
     movwf hi
     clrf WREG
     addwf lo, W
-    addwf PRODL, W
+    addwfc PRODL, W
     movwf lo
+    bnc RNT
+    incf hi
+RNT:
     endm
 	
 	
@@ -43,5 +46,3 @@ init:
     DIST 0x05, 0x07, 0x02, 0x03, 0x00, 0x01
 endl:
     end
-
-
