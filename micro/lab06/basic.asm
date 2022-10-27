@@ -32,31 +32,88 @@ DELAY macro num1, num2
 
 start:
 init:
-    CLRF TRISA
+    MOVLW 0x0f
+    MOVWF ADCON1
+    CLRF TRISB
     BSF TRISB, 0;set RA4 as input, TRISA = 0001 0000
     CLRF TRISD ;set RD0~RD3 as output, TRISD = 0000 0000
     CLRF LATD
     MOVLW B'00000000'
     MOVWF LATD, 0 ; set RAD0~RAD3 initial status, RD1 and 3 is light
     
-check_press:
+check_press_0:
     BTFSC PORTB, 0
-    BRA check_press
-    BRA light_change
+    BRA check_press_0
+    BRA light_change_0
     
-light_change:
+light_change_0:
+    MOVLW B'00000001'
+    MOVWF LATD, 0
+    ; 1. 0000 1010 => 1111 0101
+    ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
-    BSF LATD, 0
-    DELAY D'90', D'80'
-    BSF LATD, 1
-    DELAY D'90', D'80'
-    BSF LATD, 2
-    DELAY D'90', D'80'
-    BSF LATD, 3
-    DELAY D'90', D'80'
-    CLRF LATD
     
     DELAY D'90', D'80'
-    BRA check_press
+    BRA check_press_1
+ 
+check_press_1:
+    BTFSC PORTB, 0
+    BRA check_press_1
+    BRA light_change_1
+    
+light_change_1:
+    MOVLW B'00000011'
+    MOVWF LATD, 0
+    ; 1. 0000 1010 => 1111 0101
+    ; 2. 1111 0101 => 0000 1010
+    ; we don't need to care about RD4~RD7
+    
+    DELAY D'90', D'80'
+    BRA check_press_2
+
+check_press_2:
+    BTFSC PORTB, 0
+    BRA check_press_2
+    BRA light_change_2
+    
+light_change_2:
+    MOVLW B'00000111'
+    MOVWF LATD, 0
+    ; 1. 0000 1010 => 1111 0101
+    ; 2. 1111 0101 => 0000 1010
+    ; we don't need to care about RD4~RD7
+    
+    DELAY D'90', D'80'
+    BRA check_press_3
+
+check_press_3:
+    BTFSC PORTB, 0
+    BRA check_press_3
+    BRA light_change_3
+    
+light_change_3:
+    MOVLW B'00001111'
+    MOVWF LATD, 0
+    ; 1. 0000 1010 => 1111 0101
+    ; 2. 1111 0101 => 0000 1010
+    ; we don't need to care about RD4~RD7
+    
+    DELAY D'90', D'80'
+    BRA check_press_C
+    
+check_press_C:
+    BTFSC PORTB, 0
+    BRA check_press_C
+    BRA light_change_C
+    
+light_change_C:
+    MOVLW B'00000000'
+    MOVWF LATD, 0
+    ; 1. 0000 1010 => 1111 0101
+    ; 2. 1111 0101 => 0000 1010
+    ; we don't need to care about RD4~RD7
+    
+    DELAY D'90', D'80'
+    BRA check_press_0
     
 end
