@@ -36,10 +36,10 @@ init:
     MOVWF ADCON1
     CLRF TRISB
     BSF TRISB, 0;set RA4 as input, TRISA = 0001 0000
-    CLRF TRISD ;set RD0~RD3 as output, TRISD = 0000 0000
-    CLRF LATD
+    CLRF TRISA ;set RD0~RD3 as output, TRISD = 0000 0000
+    CLRF LATA
     MOVLW B'00000000'
-    MOVWF LATD, 0 ; set RAD0~RAD3 initial status, RD1 and 3 is light
+    MOVWF LATA, 0 ; set RAD0~RAD3 initial status, RD1 and 3 is light
     
 check_press:
     BTFSC PORTB, 0
@@ -48,17 +48,17 @@ check_press:
     
 light_change:
     ; we don't need to care about RD4~RD7
-    BSF LATD, 0
-    DELAY D'90', D'80'
-    BSF LATD, 1
-    DELAY D'90', D'80'
-    BSF LATD, 2
-    DELAY D'90', D'80'
-    BSF LATD, 3
-    DELAY D'90', D'80'
-    CLRF LATD
+    BSF LATA, 0
+    DELAY D'90', D'70'
+    BSF LATA, 1
+    DELAY D'90', D'70'
+    BSF LATA, 2
+    DELAY D'90', D'70'
+    BSF LATA, 3
+    DELAY D'90', D'70'
+    CLRF LATA
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'70'
     BRA check_press
     
 end

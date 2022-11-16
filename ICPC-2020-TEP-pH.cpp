@@ -91,10 +91,7 @@ int main() {
 	long long ans = 0;
 	for ( auto i: choose ) {
 		ans += dfs ( edges[i].u, edges[i].v ) * dfs ( edges[i].v, edges[i].u ) * value[edges[i].w];
-		// cout << edges[i].u << ' ' << edges[i].v << endl;
-		// cout << dfs ( edges[i].u, edges[i].v ) << ' ' << dfs ( edges[i].v, edges[i].u ) << ' ' << value[edges[i].w] << endl;
 		used[edges[i].w] = true;
-		// cout << '\t' << ans << endl;
 	}
 	
 	cout << ans << endl;

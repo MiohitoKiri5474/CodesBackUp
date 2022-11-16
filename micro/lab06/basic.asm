@@ -53,7 +53,7 @@ light_change_0:
     ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'40'
     BRA check_press_1
  
 check_press_1:
@@ -68,7 +68,7 @@ light_change_1:
     ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'40'
     BRA check_press_2
 
 check_press_2:
@@ -83,7 +83,7 @@ light_change_2:
     ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'40'
     BRA check_press_3
 
 check_press_3:
@@ -98,7 +98,7 @@ light_change_3:
     ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'40'
     BRA check_press_C
     
 check_press_C:
@@ -113,7 +113,7 @@ light_change_C:
     ; 2. 1111 0101 => 0000 1010
     ; we don't need to care about RD4~RD7
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'40'
     BRA check_press_0
     
 end

@@ -36,10 +36,10 @@ init:
     MOVWF ADCON1
     CLRF TRISB
     BSF TRISB, 0;set RA4 as input, TRISA = 0001 0000
-    CLRF TRISD ;set RD0~RD3 as output, TRISD = 0000 0000
-    CLRF LATD
+    CLRF TRISA ;set RD0~RD3 as output, TRISD = 0000 0000
+    CLRF LATA
     MOVLW B'00000000'
-    MOVWF LATD, 0 ; set RAD0~RAD3 initial status, RD1 and 3 is light
+    MOVWF LATA, 0 ; set RAD0~RAD3 initial status, RD1 and 3 is light
     
 check_press_1:
     BTFSC PORTB, 0
@@ -47,21 +47,19 @@ check_press_1:
     BRA light_change_1
     
 light_change_1:
-    MOVLW b'00000011'
-    MOVWF LATD. 0
+    ; we don't need to care about RD4~RD7
+    MOVLW B'00110011'
+    MOVWF LATA, 0
     DELAY D'90', D'80'
-    MOVLW b'00000110'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00001100'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00001001'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    CLRF LATD
+    CLRF LATA
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'70'
     BRA check_press_2
     
 check_press_2:
@@ -70,44 +68,40 @@ check_press_2:
     BRA light_change_2
     
 light_change_2:
-    MOVLW b'00000110'
-    MOVWF LATD. 0
+    ; we don't need to care about RD4~RD7
+    MOVLW B'01100110'
+    MOVWF LATA, 0
     DELAY D'90', D'80'
-    MOVLW b'00001100'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00001001'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00000011'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    CLRF LATD
+    CLRF LATA
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'70'
     BRA check_press_3
-
+    
 check_press_3:
     BTFSC PORTB, 0
     BRA check_press_3
     BRA light_change_3
     
 light_change_3:
-    MOVLW b'00001100'
-    MOVWF LATD. 0
+    ; we don't need to care about RD4~RD7
+    MOVLW B'11001100'
+    MOVWF LATA, 0
     DELAY D'90', D'80'
-    MOVLW b'00001001'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00000011'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00000110'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    CLRF LATD
+    CLRF LATA
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'70'
     BRA check_press_4
     
 check_press_4:
@@ -116,22 +110,20 @@ check_press_4:
     BRA light_change_4
     
 light_change_4:
-    MOVLW b'00001001'
-    MOVWF LATD. 0
+    ; we don't need to care about RD4~RD7
+    MOVLW B'10011001'
+    MOVWF LATA, 0
     DELAY D'90', D'80'
-    MOVLW b'00000011'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00000110'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    MOVLW b'00001100'
-    MOVWF LATD. 0
+    RLNCF LATA, 1
     DELAY D'90', D'80'
-    CLRF LATD
+    CLRF LATA
     
-    DELAY D'90', D'80'
+    DELAY D'90', D'70'
     BRA check_press_1
-    
 end
+
 
