@@ -8,6 +8,9 @@ void dfs ( int, int );
 int main(){
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
+
+	dfs2 ( 5, 5 );
+	return 0;
 	
 	while ( cin >> n >> m ){
 		if ( !n && !m )
