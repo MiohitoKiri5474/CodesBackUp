@@ -49,10 +49,12 @@ void main(void) {
     CCPR1L = 0x03;
     CCP1CONbits.DC1B = 0b11;
     int delay3=75;
-    int state=0;
+    int state=0, enable = 0;
     while(1) {
         if(!PORTB) {
-
+            enable = 1;
+        }
+        if ( enable ) {
             if(state==0) {
                 delay3=75;
                 CCP1CONbits.DC1B ++;
@@ -72,11 +74,10 @@ void main(void) {
                 }
                 while(delay3--);
                 if(CCPR1L<0X03)
-                    state=0;
+                    state=0, enable = 0;
             }
 
         }
-
 
     }
 
