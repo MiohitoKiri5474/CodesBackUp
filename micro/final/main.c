@@ -24,9 +24,9 @@
 #define _XTAL_FREQ 4000000
 
 
-int enable = 1; // ?????????
-int start = 0; // ????
-int blink = 1; // ????
+int enable = 1; // analog enable or not
+int start = 0; // start or not
+int blink = 1; // blink or not
 int blink_status = 0; // 0: disable, 1: enable
 int times; // 1 ~ 60 sec
 
@@ -64,7 +64,6 @@ void display ( int num ) {
 		case 8:  res = 0b10000000; break;
 		case 9:  res = 0b10010000; break;
 	}
-	//res ^= 0b11111111; // use if need
 	high = res;
 }
 
@@ -117,11 +116,9 @@ void main ( void ) {
             __delay_us ( 1000 );
         }
         if ( !PORTBbits.RB1 && !enable ) {
-            start ^= 1;
-            blink ^= 1;
+            start ^= 1, blink ^= 1;
             __delay_us ( 1000 );
-            LATC = high;
-            LATD = low;
+            LATC = high, LATD = low;
         }
         if ( enable ) {
             unsigned int number = 0, deg = 17;
@@ -136,8 +133,7 @@ void main ( void ) {
             PIR1bits.ADIF = 0;
             ADCON0bits.GODONE = 1;
             display ( times );
-            LATC = high;
-            LATD = low;
+            LATC = high, LATD = low;
             __delay_us ( 4 );
         }
         else {
@@ -148,13 +144,10 @@ void main ( void ) {
                 if ( cnt == 1000 ) {
                     times--, cnt = 0;
                     display ( times );
-                    LATC = high;
-                    LATD = low;
+                    LATC = high, LATD = low;
                 }
-                if ( !times ) {
-                    start ^= 1;
-                    blink ^= 1;
-                }
+                if ( !times )
+                    start ^= 1, blink ^= 1;
             }
             else {
                 __delay_us ( 1000 );
