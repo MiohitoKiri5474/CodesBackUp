@@ -30,7 +30,7 @@ int times; // 0 ~ 9 min
 
 void display ( int num ) {
 	int res;
-	switch ( num ) {
+	switch ( num % 10 ) {
 		case 0: res = 0b11000000; break;
 		case 1: res = 0b11111001; break;
 		case 2: res = 0b10100100; break;
@@ -45,14 +45,37 @@ void display ( int num ) {
 	}
 	// res ^= 0b11111111; // use if need
 	LATD = res;
+    switch ( num / 10 ) {
+		case 0: res = 0b11000000; break;
+		case 1: res = 0b11111001; break;
+		case 2: res = 0b10100100; break;
+		case 3: res = 0b10110000; break;
+		case 4: res = 0b10011001; break;
+		case 5: res = 0b10010010; break;
+		case 6: res = 0b10000010; break;
+		case 7: res = 0b11111000; break;
+		case 8: res = 0b10000000; break;
+		case 9: res = 0b10010000; break;
+		default: res = 0b00000000; break;
+	}
+	// res ^= 0b11111111; // use if need
+	LATC = res;
 }
 
+// TIRSA: analog input
+// TRISB: btn
+// TRISC: sec h
+// TRISD: sec l
+
 void main ( void ) {
-    OSCCONbits.IRCF = 0b110; //4MHz
-    TRISAbits.RA0 = 1; //analog input
+    OSCCONbits.IRCF = 0b110; // 4MHz
+    TRISAbits.RA0 = 1; // analog input
     PORTA = 0;
     
-    //set RD0~7 = output
+    // set RC0 ~ RC7 as output
+    TRISC = 0;
+    LATC = 0;
+    // set RD0 ~ RD7 as output
     TRISD = 0;
     LATD = 0;
     
@@ -69,15 +92,15 @@ void main ( void ) {
     INTCONbits.PEIE = 1; // enable all unmasked periheral interrupts
     INTCONbits.GIE = 1; // enable all unmasked interrupt
     
-    //configure ADIP
+    // configure ADIP
     IPR1bits.ADIP = 1;
     
-    ADCON0bits.GODONE = 1;//do AD in progress
-    __delay_us(4);
+    ADCON0bits.GODONE = 1; // do AD in progress
+    __delay_us ( 4 );
     // RB0: set time
     // RB1: start or not
     int cnt = 0;
-    while(1){
+    while ( 1 ) {
         if ( !PORTBbits.RB0 ) {
             enable ^= 1;
             __delay_us ( 10000 );
@@ -91,7 +114,7 @@ void main ( void ) {
             // running
             __delay_us ( 10000 );
             cnt++;
-            if ( cnt == 6000 ) {
+            if ( cnt == 100 ) {
                 times--, cnt = 0;
 				display ( times );
 			}
@@ -114,16 +137,11 @@ void __interrupt(high_priority) ADC_ISR (){
     if ( !enable )
         return;
     unsigned int number = 0;
-    number = number | ADRESH;
-    number = number << 8;
-    number = number | ADRESL;
-    unsigned char i = 0;
-    while(number > 64){
-        number -= 64;
-        i++;
-    }
-    times = min ( i + 1, 9 );
+    number |= ADRESH;
+    number <<= 8;
+    number |= ADRESL;
+    times = min ( number / 100 + 1, 60 );
     PIR1bits.ADIF = 0;
     ADCON0bits.GODONE = 1;
-    __delay_us(4);
+    __delay_us ( 4 );
 }
