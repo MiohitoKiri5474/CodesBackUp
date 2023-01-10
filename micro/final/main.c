@@ -2,7 +2,7 @@
  * File:   main.c
  * Author: lltzpp
  *
- * Created on 2023?1?10?, ?? 1:15
+ * Created on 2023/1/10, 1:15
  */
 
 
@@ -25,8 +25,12 @@
 
 
 int enable = 1; // 可變電阻是否有作用
-int start = 0;
+int start = 0; // 是否開始
+int blink = 1; // 是否閃爍
+int blink_status = 0; // 0: disable, 1: enable
 int times; // 0 ~ 9 min
+
+int high, low;
 
 void display ( int num ) {
 	int res;
@@ -44,7 +48,7 @@ void display ( int num ) {
 		default: res = 0b00000000; break;
 	}
 	// res ^= 0b11111111; // use if need
-	LATD = res;
+	low = res;
     switch ( num / 10 ) {
 		case 0: res = 0b11000000; break;
 		case 1: res = 0b11111001; break;
@@ -59,7 +63,15 @@ void display ( int num ) {
 		default: res = 0b00000000; break;
 	}
 	// res ^= 0b11111111; // use if need
-	LATC = res;
+	high = res;
+}
+
+void blinking ( void ) {
+	if ( blink_status )
+		LATC = high, LATD = low;
+	else
+		LATC = LATD = 0;
+	blink_status ^= 1;
 }
 
 // TIRSA: analog input
@@ -107,6 +119,7 @@ void main ( void ) {
         }
         if ( !PORTBbits.RB1 ) {
             start ^= 1;
+			blink ^= 1;
             if ( !start )
                 __delay_us ( 10000 );
         }
@@ -117,8 +130,13 @@ void main ( void ) {
             if ( cnt == 100 ) {
                 times--, cnt = 0;
 				display ( times );
+				LATC = high, LATD = low;
 			}
         }
+		else {
+			blinking();
+			__delay_us ( 100000 );
+		}
     }
 }
 
@@ -143,5 +161,6 @@ void __interrupt(high_priority) ADC_ISR (){
     times = min ( number / 100 + 1, 60 );
     PIR1bits.ADIF = 0;
     ADCON0bits.GODONE = 1;
+	display ( times );
     __delay_us ( 4 );
 }
