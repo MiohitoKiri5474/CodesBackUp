@@ -28,9 +28,14 @@ int enable = 1; // 可變電阻是否有作用
 int start = 0; // 是否開始
 int blink = 1; // 是否閃爍
 int blink_status = 0; // 0: disable, 1: enable
-int times; // 0 ~ 9 min
+int times; // 1 ~ 60 sec
 
 int high, low;
+int cnt = 0, blink_cnt = 0;
+
+int min ( int a, int b ) {
+    return a > b ? b : a;
+}
 
 void display ( int num ) {
 	int res;
@@ -47,22 +52,22 @@ void display ( int num ) {
 		case 9: res = 0b10010000; break;
 		default: res = 0b00000000; break;
 	}
-	// res ^= 0b11111111; // use if need
+	res ^= 0b11111111; // use if need
 	low = res;
     switch ( num / 10 ) {
-		case 0: res = 0b11000000; break;
-		case 1: res = 0b11111001; break;
-		case 2: res = 0b10100100; break;
-		case 3: res = 0b10110000; break;
-		case 4: res = 0b10011001; break;
-		case 5: res = 0b10010010; break;
-		case 6: res = 0b10000010; break;
-		case 7: res = 0b11111000; break;
-		case 8: res = 0b10000000; break;
-		case 9: res = 0b10010000; break;
+		case 0:  res = 0b11000000; break;
+		case 1:  res = 0b11111001; break;
+		case 2:  res = 0b10100100; break;
+		case 3:  res = 0b10110000; break;
+		case 4:  res = 0b10011001; break;
+		case 5:  res = 0b10010010; break;
+		case 6:  res = 0b10000010; break;
+		case 7:  res = 0b11111000; break;
+		case 8:  res = 0b10000000; break;
+		case 9:  res = 0b10010000; break;
 		default: res = 0b00000000; break;
 	}
-	// res ^= 0b11111111; // use if need
+	res ^= 0b11111111; // use if need
 	high = res;
 }
 
@@ -74,16 +79,14 @@ void blinking ( void ) {
 	blink_status ^= 1;
 }
 
-// TIRSA: analog input
-// TRISB: btn
-// TRISC: sec h
-// TRISD: sec l
-
 void main ( void ) {
     OSCCONbits.IRCF = 0b110; // 4MHz
     TRISAbits.RA0 = 1; // analog input
     PORTA = 0;
     
+    // set RB0, RB1 as input
+    TRISB = 3;
+    LATB = 0;
     // set RC0 ~ RC7 as output
     TRISC = 0;
     LATC = 0;
@@ -111,56 +114,57 @@ void main ( void ) {
     __delay_us ( 4 );
     // RB0: set time
     // RB1: start or not
-    int cnt = 0;
     while ( 1 ) {
-        if ( !PORTBbits.RB0 ) {
-            enable ^= 1;
-            __delay_us ( 10000 );
-        }
-        if ( !PORTBbits.RB1 ) {
-            start ^= 1;
-			blink ^= 1;
-            if ( !start )
-                __delay_us ( 10000 );
-        }
-        if ( !start ) {
-            // running
-            __delay_us ( 10000 );
-            cnt++;
-            if ( cnt == 100 ) {
-                times--, cnt = 0;
-				display ( times );
-				LATC = high, LATD = low;
-			}
-        }
-		else {
-			blinking();
-			__delay_us ( 100000 );
-		}
     }
 }
 
-/*
- * 0~63 = 0     512~575 = 8
- * 64~127 = 1   576~639 = 9
- * 128~191 = 2  640~703 = 10
- * 192~255 = 3  704~767 = 11
- * 256~319 = 4  768~831 = 12
- * 320~383 = 5  832~895 = 13
- * 384~447 = 6  896~959 = 14
- * 448~511 = 7  960~1023 = 15
-*/
-
 void __interrupt(high_priority) ADC_ISR (){
-    if ( !enable )
-        return;
-    unsigned int number = 0;
-    number |= ADRESH;
-    number <<= 8;
-    number |= ADRESL;
-    times = min ( number / 100 + 1, 60 );
-    PIR1bits.ADIF = 0;
-    ADCON0bits.GODONE = 1;
-	display ( times );
-    __delay_us ( 4 );
+    if ( enable ) {
+    	unsigned int number = 0;
+    	number |= ADRESH;
+    	number <<= 8;
+    	number |= ADRESL;
+    	times = min ( number / 17 + 1, 60 );
+    	PIR1bits.ADIF = 0;
+    	ADCON0bits.GODONE = 1;
+		display ( times );
+    	// LATC = high;
+    	LATC = start;
+    	LATD = low;
+    	__delay_us ( 4 );
+	}
+	if ( !PORTBbits.RB0 ) {
+        enable ^= 1;
+        __delay_us ( 4 );
+    }
+    if ( !PORTBbits.RB1 ) {
+        start ^= 1;
+		blink ^= 1;
+        if ( !start )
+            __delay_us ( 4 );
+    }
+    if ( start ) {
+        // running
+        __delay_us ( 4 );
+        cnt++;
+        if ( cnt == 250000 ) {
+            times--, cnt = 0;
+			display ( times );
+			// LATC = high;
+            LATD = low;
+		}
+    }
+	else {
+        __delay_us ( 4 );
+        blink_cnt++;
+        if ( blink_cnt == 25000 ) {
+            blinking();
+            blink_cnt = 0;
+        }
+	}
 }
+
+// TIRSA: analog input
+// TRISB: btn, RB0: analog, RB1: running
+// TRISC: sec h
+// TRISD: sec l
