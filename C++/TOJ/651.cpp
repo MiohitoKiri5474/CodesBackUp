@@ -82,9 +82,9 @@
              `--`           s:```.../s`//.........-/+.....syyyyyyyyyyhyyyyyyyy::syyyyyyyyyyyyyyyyyyyyh/:/hyyyhyyyyyyyyy.:-/..........+oo-``````o/    `:+/`                
 */
 
-// Gura is cute >///<
+/* Gura is cute >///< */
 
-// by. MiohitoKiri5474
+/* by. MiohitoKiri5474 */
 
 #include<bits/stdc++.h>
 
@@ -118,33 +118,18 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-#define int LL
-
-inline int _pow ( int a, int b ) {
-	int res = 1;
-	while ( b ) {
-		if ( b & 1 )
-			res *= a;
-		a *= a;
-		b >>= 1;
-	}
-
-	return res;
-}
-
-#undef int
-
 int main() {
-#define int LL
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	int n, a, b;
+	int n, num = 1;
 	cin >> n;
-	while ( n-- ) {
-		cin >> a >> b;
-		cout << _pow ( a, b ) << endl;
+	while ( n >= num ) {
+		n -= num++;
 	}
+	cout << num << endl;
 }
 
+// n = x * ( x + 1 ) / 2
+// 2n = x * ( x + 1 ) = x ^ 2 + x - 2n = 0

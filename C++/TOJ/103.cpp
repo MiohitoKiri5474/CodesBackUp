@@ -77,7 +77,7 @@ int main(){
 	cin >> c >> a >> d >> b;
 	if ( a == b && c == d )
 		cout << "GOOD\n";
-	else if ( a ==b || c == d )
+	else if ( a == b || c == d )
 		cout << "=~=\n";
 	else
 		cout << "OTZ\n";

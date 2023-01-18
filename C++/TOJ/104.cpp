@@ -85,10 +85,11 @@ int32_t main(){
 
 	int n;
 	cin >> n;
-	n++;
-	REPP ( i, 1, n ){
-		REPP ( j, 1, n - i ) cout << ' ';
-		REPP ( j, 0, i * 2 - 1 ) cout << '*';
-		cout << '\n';
+	for ( int i = 1 ; i <= n ; i++ ) { // 行
+		for ( int j = 0 ; j < n - i ; j++ ) // n - i
+			cout << ' ';
+		for ( int j = 0 ; j < i * 2 - 1 ; j++ )
+			cout << '*';
+		cout << endl;
 	}
 }
