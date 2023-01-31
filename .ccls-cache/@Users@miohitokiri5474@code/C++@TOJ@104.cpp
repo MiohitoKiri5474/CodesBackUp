@@ -1,9 +1,3 @@
-/************************************/
-/* Date		: 2019-04-30 18:22:56	*/
-/* Author	: MiohitoKiri5474		*/
-/* Email	: lltzpp@gmail.com		*/
-/************************************/
-
 // by. MiohitoKiri5474
 #include<bits/stdc++.h>
 
@@ -33,7 +27,7 @@ template < class T > using vec = vector < T >;
 typedef vec < int > vi;
 typedef vec < LL > vl;
 #define pb push_back
-#define eb emplace_back
+#define ep emplace_back
 #define REV reverse
 #define SZ(n) ( int ) n.size()
 #define CLR(n) n.clear()
@@ -80,35 +74,21 @@ template < class T > using MinHeap = priority_queue < T, vec < T >, greater < T 
 // let's go coding and have fun!
 // I can solve this problem!
 
-inline bool check ( string str ){
-	string swp = str;
-	REV ( ALL ( str ) );
+#define int LL
+// function start from here
 
-	return str == swp;
-}
 
-int main(){
+int32_t main(){
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	string str, swp, ans;
 	int n;
-	cin >> str;
-	n = SZ ( str );
-	REPP ( i, 0, n ){
-		swp += str[i];
-		REPP ( j, i + 1, n ){
-			swp += str[j];
-			if ( check ( str ) ){
-				if ( SZ ( ans ) < SZ ( str ) )
-					ans = str;
-			}
-		}
+	cin >> n;
+	n++;
+	REPP ( i, 1, n ){
+		REPP ( j, 1, n - i ) cout << ' ';
+		REPP ( j, 0, i * 2 - 1 ) cout << '*';
+		cout << '\n';
 	}
-
-	if ( ans == "" )
-		ans = "...";
-
-	cout << ans << '\n';
 }
