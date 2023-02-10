@@ -21,22 +21,22 @@ inline void dsu::init ( void ) {
 }
 
 // basic version
-int dsu::find ( int n ) {
+int dsu::find1 ( int n ) {
 	if ( dis[n] == n )
 		return n;
-	return find ( dis[n] );
+	return find1 ( dis[n] );
 }
 
 // path compression version
-int dsu::find ( int n ) {
+int dsu::find2 ( int n ) {
 	if ( dis[n] == n )
 		return n;
-	return dis[n] = find ( dis[n] );
+	return dis[n] = find2 ( dis[n] );
 }
 
 // basic version
 inline void dsu::Union1 ( int a, int b ) {
-	dis[find ( a )] = find ( b );
+	dis[find1 ( a )] = find1 ( b );
 	// find ( a ) == 1
 	// find ( b ) == 1
 	// dis[1] = 1;
@@ -46,13 +46,13 @@ inline void dsu::Union1 ( int a, int b ) {
 inline void dsu::Union2 ( int a, int b ) {
 	if ( same ( a, b ) )
 		return;
-	a = find ( a ), b = find ( b );
+	a = find2 ( a ), b = find2 ( b );
 	if ( rank[a] < rank[b] )
 		swap ( a, b );
-	dis[[dis[b]] = dis[a];
+	dis[dis[b]] = dis[a];
 	rank[a]++;
 }
 
 inline bool dsu::same ( int a, int b ) {
-	return find ( a ) == find ( b );
+	return find2 ( a ) == find2 ( b );
 }
