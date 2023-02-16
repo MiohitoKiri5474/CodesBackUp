@@ -14,7 +14,7 @@ int main(){
 	while ( n-- ){
 		scanf ( "%hd%d", &a, &b );
 		b -= data[a];
-		if ( b )
+		if ( b != 0 )
 			printf ( "%d\n", b );
 		else
 			puts ( "The shopkeeper is honest." );

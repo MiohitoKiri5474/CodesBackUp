@@ -85,8 +85,7 @@ int32_t main(){
 
 	int n, q, l, r;
 	cin >> n;
-	n++;
-	REPP ( i, 1, n ){
+	for ( int i = 1 ; i <= n ; i++ ) {
 		cin >> lib[i];
 		lib[i] += lib[i - 1];
 	}
