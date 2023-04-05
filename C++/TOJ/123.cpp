@@ -86,12 +86,13 @@ int32_t main(){
 	cin >> n;
 	string s1, s2;
 	cin >> s1 >> s2;
+	cout << s1 << endl;
 	s1 += '1';
 	s2 += '1';
 	s1 = '1' + s1;
 	s2 = '1' + s2;
-	n++;
-	REPP ( i, 1, n ){
+	cout << s1 << endl;
+	for ( int i = 1 ; i <= n ; i++ ) {
 		if ( s1[i] == '0' && ( s2[i] == '0' || s2[i - 1] == '0' || s2[i + 1] == '0' ) ){
 			cout << "FENESTRATION FORTIFICATION FAILURE!\n";
 			return 0;
@@ -100,3 +101,14 @@ int32_t main(){
 
 	cout << "FENDED OFF!\n";
 }
+//  01110001 
+// 1011100011
+//  11000001
+// 1110000011
+
+
+
+
+
+
+

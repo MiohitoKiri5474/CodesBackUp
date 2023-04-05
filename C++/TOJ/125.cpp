@@ -78,12 +78,30 @@ int main(){
 	int n, p, c, t, in, sum = 0;
 
 	cin >> n >> p >> c;
-	REPP ( i, 0, n ) REPP ( j, 0, p ){
-		cin >> in;
-		tree[j] += in;
-	}
+	for ( int i = 0 ; i < n ; i++ )
+		for ( int j = 0 ; j < p ; j++ ) {
+			cin >> in;
+			tree[j] += in;
+		}
 
-	REPP ( i, 0, p ) sum ^= tree[i];
+	for ( int i = 0 ; i < p ; i++ )
+		sum ^= tree[i];
 
-	cout << ( ( !sum && !c ) || ( sum && c ) ? "Ivy" : "Holly" ) << " Win!\n";
+	if ( ( sum == 0 && c == 0 ) || ( sum != 0 && c != 0 ) )
+		cout << "Ivy Win!\n";
+	else
+		cout << "Holly Win\n";
 }
+
+
+/*
+   xor
+   111000
+^  001001
+----------
+   110001
+
+   
+   
+
+   */

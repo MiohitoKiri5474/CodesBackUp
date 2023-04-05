@@ -4,12 +4,13 @@
 
 using namespace std;
 
+long long sum [200005];
+
 int main(){
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
-	#define int long long
 
-	int n, stop, q, l, r, sum[200005] = { 0 };
+	int n, stop, q, l, r;
 	cin >> n;
 	for  ( int i = 1 ; i <= n ; i++ ){
 		cin >> stop;
