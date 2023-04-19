@@ -125,33 +125,27 @@ string servant[10] = {
 	"Rider",
 	"Caster",
 	"Assassin",
-	"Berserker",
-	"Saber",
-	"Lancer",
-	"Archer"
+	"Berserker"
 };
 
-map < string, int > lib;
+int lib[15];
 int main() {
 
 	char c;
-	for ( auto i: servant )
-		lib[i] = 0;
 	while ( ( c = getchar() ) ) {
 		if ( c == EOF )
 			break;
-		if ( 'A' <= c && c <= 'J' )
-			lib[servant[( int ) c - 'A']]++;
-		if ( 'a' <= c && c <= 'j' )
-			lib[servant[( int ) c - 'a']]++;
+		if ( 'A' <= c && c <= 'Z' )
+			lib[( ( int ) c - 'A' ) % 7]++;
+		if ( 'a' <= c && c <= 'z' )
+			lib[( ( int ) c - 'a' ) % 7]++;
 	}
 
 	int ma = -1;
 	string ans;
-	for ( auto i: lib )
-		if ( ma < i.S )
-			ans = i.F, ma = i.S;
+	for ( int i = 0 ; i < 10 ; i++ )
+		if ( ma < lib[i] )
+			ma = lib[i], ans = servant[i];
 	
 	cout << ans << endl;
 }
-
