@@ -24,3 +24,4 @@ node_modules
 a
 in.in
 out.out
+.clangd
