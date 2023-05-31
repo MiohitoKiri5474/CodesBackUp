@@ -137,7 +137,7 @@ int main() {
 			if ( in > 0 )
 				cart[in]++;
 			else
-				cart[in * -1]--; // in is neg
+				cart[in * -1]--; // in is neg at here
 		}
 		if ( cart[a] > 0 && cart[b] > 0 )
 			ans++;
