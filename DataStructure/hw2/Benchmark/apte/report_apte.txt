@@ -1,3 +1,0 @@
-Benchmark : Benchmark/apte/apte
-Wirelength : 12042.5
-Area : 47857635

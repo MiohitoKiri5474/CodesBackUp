@@ -1,3 +1,0 @@
-Benchmark : Benchmark/medium/medium
-Wirelength : 195
-Area : 11000
