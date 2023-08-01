@@ -5,10 +5,10 @@ using namespace std;
 
 typedef long long LL;
 const int maxN = 100005;
-const int maxK = sqrt ( maxN ) + 1;
+const int maxK = 317;
 
 int A[maxN];
-LL B[maxN], tagA[maxK], sumB[maxK], tagB[maxK];
+long long B[maxN], tagA[maxK], sumB[maxK], tagB[maxK];
 
 int main(){
 	ios::sync_with_stdio ( false );
@@ -28,7 +28,7 @@ int main(){
 				id = i / k;
 				l = id * k;
 				r = min ( n, ( id + 1 ) * k );
-				if ( l == l && R >= r - 1 ){
+				if ( i == l && R >= r - 1 ){
 					if ( tagA[id] ){
 						sumB[id] += 1LL * abs ( x - tagA[id] ) * ( r - 1 );
 						tagB[id] += abs ( x - tagA[id] );
@@ -56,22 +56,22 @@ int main(){
 				}
 			}
 		}
-	}
-	else{
-		LL res = 0;
-		for ( int i = L ; i <= R ; ){
-			id = i / k;
-			l = id * k;
-			r = min ( n, ( id + 1 ) * k );
-			if ( i == l && R >= r - 1 ){
-				res += sumB[id];
-				i = r;
+		else{
+			LL res = 0;
+			for ( int i = L ; i <= R ; ){
+				id = i / k;
+				l = id * k;
+				r = min ( n, ( id + 1 ) * k );
+				if ( i == l && R >= r - 1 ){
+					res += sumB[id];
+					i = r;
+				}
+				else
+					res += B[i] + tagB[id];
+				i++;
 			}
-			else
-				res += B[i] + tagB[id];
-			i++;
-		}
 
-		cout << ans << '\n';
+			cout << res << '\n';
+		}
 	}
 }
