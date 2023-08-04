@@ -118,6 +118,8 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
+#include<sstream>
+
 int main() {
 	ios::sync_with_stdio (false);
 	cin.tie (0);
@@ -159,7 +161,9 @@ int main() {
 			st.pop();
 		}
 
-		for (int i = 0; i < ans.size(); i++)
-			cout << ans[i] << " \n"[i == ans.size() - 1];
+		cout << ans[0];
+		for (int i = 1; i < ans.size(); i++)
+			cout << ' ' << ans[i];
+		cout << endl;
 	}
 }
