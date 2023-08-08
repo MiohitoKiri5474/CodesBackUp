@@ -44,7 +44,7 @@ int main() {
 			basic[l] = r;
 		}
 		else
-			cout << sum ( r ) - sum ( l ) << '\n';
+			cout << sum ( r ) - sum ( l - 1 ) << '\n';
 	}
 }
 

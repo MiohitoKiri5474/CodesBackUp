@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define max N 100005
+#define maxN 100005
 
 int pre[maxN];
 
