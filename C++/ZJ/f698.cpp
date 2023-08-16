@@ -118,6 +118,8 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
+#include<string>
+
 int main() {
 	ios::sync_with_stdio (false);
 	cin.tie (0);
@@ -147,11 +149,16 @@ int main() {
 					si.push (a / b);
 				else if (i == "%")
 					si.push (a % b);
-			} else {
+			} else
 				si.push (stoi (i));
-			}
 		}
 
 		cout << si.top() << endl;
 	}
 }
+
+// 1 2 3 * +
+//         ^
+// stack: 1 2 3
+// 		    a b
+// operate: 1 + 6 = 7

@@ -118,67 +118,21 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
+vector < pii > v;
+
 int main() {
 	ios::sync_with_stdio (false);
 	cin.tie (0);
 	cout.tie (0);
 
-	string s, c;
-	while (getline (cin, s)) {
-		stringstream ss;
-		ss << s;
-		vector <string> postfix;
-		stack <string, vector <string>> st;
-		while ( ss >> c ) {
-			if ( c == ")" ) {
-				while (!st.empty() && st.top() != "(") {
-					postfix.pb ( st.top() );
-					st.pop();
-				}
-				st.pop();
-			} else if (c == "(")
-				st.push (c);
-			else if (c == "*" || c == "/" || c == "%") {
-				if (!st.empty() && (st.top() == "*" || st.top() == "/" || st.top() == "%")) {
-					postfix.pb (st.top());
-					st.pop();
-				}
-				st.push (c);
-			} else if (c == "+" || c == "-") {
-				while (!st.empty() && (st.top() == "*" || st.top() == "/" || st.top() == "%" || st.top() == "+" || st.top() == "-")) {
-					postfix.pb (st.top());
-					st.pop();
-				}
-				st.push (c);
-			} else
-				postfix.pb (c);
-		}
-
-		while (!st.empty()) {
-			postfix.pb (st.top());
-			st.pop();
-		}
-
-		stack <LL, vector <LL>> si;
-
-		for (auto i: postfix) {
-			if (i == "+" || i == "-" || i == "*" || i == "/" || i == "%") {
-				LL b = si.top(); si.pop();
-				LL a = si.top(); si.pop();
-				if (i == "+")
-					si.push (a + b);
-				else if (i == "-")
-					si.push (a - b);
-				else if (i == "*")
-					si.push (a * b);
-				else if (i == "/")
-					si.push (a / b);
-				else if (i == "%")
-					si.push (a % b);
-			} else
-				si.push (stoi (i));
-		}
-
-		cout << si.top() << endl;
+	int n, x, y;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> x >> y;
+		v.pb (pii (x, y));
 	}
+	sort (v.begin(), v.end());
+	for (auto [f, s]: v)
+		cout << f << ' ' << s << endl;
 }
+

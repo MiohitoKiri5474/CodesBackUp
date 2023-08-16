@@ -123,62 +123,18 @@ int main() {
 	cin.tie (0);
 	cout.tie (0);
 
-	string s, c;
-	while (getline (cin, s)) {
-		stringstream ss;
-		ss << s;
-		vector <string> postfix;
-		stack <string, vector <string>> st;
-		while ( ss >> c ) {
-			if ( c == ")" ) {
-				while (!st.empty() && st.top() != "(") {
-					postfix.pb ( st.top() );
-					st.pop();
-				}
-				st.pop();
-			} else if (c == "(")
-				st.push (c);
-			else if (c == "*" || c == "/" || c == "%") {
-				if (!st.empty() && (st.top() == "*" || st.top() == "/" || st.top() == "%")) {
-					postfix.pb (st.top());
-					st.pop();
-				}
-				st.push (c);
-			} else if (c == "+" || c == "-") {
-				while (!st.empty() && (st.top() == "*" || st.top() == "/" || st.top() == "%" || st.top() == "+" || st.top() == "-")) {
-					postfix.pb (st.top());
-					st.pop();
-				}
-				st.push (c);
-			} else
-				postfix.pb (c);
+	int n;
+	while (cin >> n) {
+		while (n % 10 == 0) {
+			n /= 10;
 		}
 
-		while (!st.empty()) {
-			postfix.pb (st.top());
-			st.pop();
+		if (!n) cout << 0;
+		while (n) {
+			cout << n % 10;
+			n /= 10;
 		}
-
-		stack <LL, vector <LL>> si;
-
-		for (auto i: postfix) {
-			if (i == "+" || i == "-" || i == "*" || i == "/" || i == "%") {
-				LL b = si.top(); si.pop();
-				LL a = si.top(); si.pop();
-				if (i == "+")
-					si.push (a + b);
-				else if (i == "-")
-					si.push (a - b);
-				else if (i == "*")
-					si.push (a * b);
-				else if (i == "/")
-					si.push (a / b);
-				else if (i == "%")
-					si.push (a % b);
-			} else
-				si.push (stoi (i));
-		}
-
-		cout << si.top() << endl;
+		cout << endl;
 	}
 }
+
