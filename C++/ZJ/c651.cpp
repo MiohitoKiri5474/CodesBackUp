@@ -88,7 +88,7 @@
 
 #include<bits/stdc++.h>
 
-#pragma GCC optimize ("O3")
+#pragma GCC optimize ("Ofast")
 #pragma loop_opt (on)
 
 using namespace std;
@@ -116,16 +116,59 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 
 // number~ remember change maxN
 #define INF 0x3f3f3f3f
-#define maxN 100005
+#define maxN 1000005
 
-struct node {
-	int x, y;
-};
+int seg[maxN << 2];
 
-vector < node > v;
+inline LL read_int (void) {
+	LL num = 0;
+	char c = getchar_unlocked();
+	while ('0' <= c && c <='9') {
+		num = (num << 3) + (num << 1) + c - '0';
+		c = getchar_unlocked();
+	}
+	return num;
+}
 
-bool cmp (node a, node b) {
-	return a.x < b.x || (a.x == b.x && a.y < b.y);
+inline void print_int (LL num) {
+	if (!num) {
+		putchar ('0');
+		return;
+	}
+	int len = 0;
+	char str[20];
+	while (num > 0) {
+		str[len++] = num % 10 + 48;
+		num /= 10;
+	}
+	for (int i = len = 1; i >= 0; i-- )
+		putchar_unlocked (str[i]);
+}
+
+void update (int l, int r, int index, int value, int n) {
+	if (l == r)
+		seg[n] = value;
+	else {
+		int mid = (l + r) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
+		if (index <= mid)
+			update (l, mid, index, value, leftSon);
+		else
+			update (mid + 1, r, index, value, rightSon);
+
+		seg[n] = seg[leftSon] ^ seg[rightSon];
+	}
+}
+
+int query (int l, int r, int nowL, int nowR, int n) {
+	if (l <= nowL && nowR <= r)
+		return seg[n];
+	int mid = (nowL + nowR) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
+	if (r <= mid)
+		return query (l, r, nowL, mid, leftSon);
+	if (mid < l)
+		return query (l, r, mid + 1, nowR, rightSon);
+
+	return query (l, r, nowL, mid, leftSon) ^ query (l, r, mid + 1, nowR, rightSon);
 }
 
 int main() {
@@ -133,14 +176,20 @@ int main() {
 	cin.tie (0);
 	cout.tie (0);
 
-	int n, x, y;
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> x >> y;
-		v.pb (node {x, y});
+	int n, m, t, l, r;
+	n = read_int(), m = read_int();
+	for (int i = 1, in; i <= n; i++) {
+		in = read_int();
+		update (1, n, i, in, 1);
 	}
-	sort (v.begin(), v.end(), cmp);
-	for (auto [x, y]: v )
-		cout << x << ' ' << y << endl;
+	while (m--) {
+		t = read_int(), l = read_int(), r = read_int();
+		if (t)
+			update (1, n, l, r, 1);
+		else {
+			print_int (query (l, r, 1, n, 1));
+			putchar_unlocked ('\n');
+		}
+	}
 }
 

@@ -118,29 +118,60 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-struct node {
-	int x, y;
-};
+struct dsu {
+	int dis[maxN], sz[maxN];
 
-vector < node > v;
+	inline void init (void) {
+		for (int i = 0; i < maxN; i++) {
+			dis[i] = i;
+			sz[i] = 1;
+		}
+	}
 
-bool cmp (node a, node b) {
-	return a.x < b.x || (a.x == b.x && a.y < b.y);
-}
+	int find (int n) {
+		if (n == dis[n])
+			return n;
+		dis[n] = find (dis[n]);
+		return dis[n];
+	}
+
+	inline void Union (int a, int b) {
+		a = find (a), b = find (b);
+		if (sz[a] > sz[b])
+			swap (a, b);
+		dis[a] = dis[b];
+		sz[b] += sz[a];
+	}
+
+	inline bool same (int a, int b) {
+		return find (a) == find (b);
+	}
+} dis;
+
+bool lib[maxN];
 
 int main() {
 	ios::sync_with_stdio (false);
 	cin.tie (0);
 	cout.tie (0);
 
-	int n, x, y;
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> x >> y;
-		v.pb (node {x, y});
+	int n, m, a, b, ans;
+	while (cin >> n >> m) {
+		dis.init();
+		memset (lib, 0, sizeof lib);
+		ans = 0;
+		while (m--) {
+			cin >> a >> b;
+			dis.Union (a, b);
+		}
+		for (int i = 0; i < n; i++) {
+			if (!lib[dis.find (i)]) {
+				ans++;
+				lib[dis.find (i)] = 1;
+			}
+		}
+
+		cout << ans << endl;
 	}
-	sort (v.begin(), v.end(), cmp);
-	for (auto [x, y]: v )
-		cout << x << ' ' << y << endl;
 }
 

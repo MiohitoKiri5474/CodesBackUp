@@ -118,14 +118,20 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-struct node {
-	int x, y;
-};
+vector < int > edges[maxN];
+bitset <maxN> vis;
 
-vector < node > v;
+inline void init (int n) {
+	for (int i = 0; i <= n; i++)
+		edges[i].clear();
+	vis.reset();
+}
 
-bool cmp (node a, node b) {
-	return a.x < b.x || (a.x == b.x && a.y < b.y);
+void dfs (int n) {
+	if (vis[n])
+		return;
+	for (auto i: edges[n])
+		dfs (i);
 }
 
 int main() {
@@ -133,14 +139,23 @@ int main() {
 	cin.tie (0);
 	cout.tie (0);
 
-	int n, x, y;
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> x >> y;
-		v.pb (node {x, y});
+	int n, m, a, b, ans;
+	cin >> n >> m;
+	while (cin >> n >> m) {
+		init (n);
+		ans = 0;
+		while (m--) {
+			cin >> a >> b;
+			edges[a].pb (b);
+			edges[b].pb (a);
+		}
+
+		for (int i = 0; i < n; i++ )
+			if (!vis[i]) {
+				ans++;
+				dfs (i);
+			}
+		cout << ans << endl;
 	}
-	sort (v.begin(), v.end(), cmp);
-	for (auto [x, y]: v )
-		cout << x << ' ' << y << endl;
 }
 

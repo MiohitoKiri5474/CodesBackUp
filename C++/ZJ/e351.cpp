@@ -118,29 +118,29 @@ template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-struct node {
-	int x, y;
-};
-
-vector < node > v;
-
-bool cmp (node a, node b) {
-	return a.x < b.x || (a.x == b.x && a.y < b.y);
-}
-
 int main() {
 	ios::sync_with_stdio (false);
 	cin.tie (0);
 	cout.tie (0);
 
-	int n, x, y;
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> x >> y;
-		v.pb (node {x, y});
+	LL a, b, ans;
+	while (cin >> a >> b) {
+		ans = 0;
+		if (a > b)
+			swap (a, b);
+		for (LL i = 62; i >= 0; i--) {
+			if ((a & (1 << i)) == (b & (1 << i)))
+				ans += a & (1 << i);
+			else
+				break;
+		}
+	
+		cout << ans << endl;
 	}
-	sort (v.begin(), v.end(), cmp);
-	for (auto [x, y]: v )
-		cout << x << ' ' << y << endl;
 }
 
+/*
+ 100
+1001
+------
+ */
