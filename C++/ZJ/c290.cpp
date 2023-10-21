@@ -88,8 +88,8 @@
 
 #include<bits/stdc++.h>
 
-// #pragma GCC optimize ( "O3" )
-// #pragma loop_opt ( on )
+#pragma GCC optimize ( "O3" )
+#pragma loop_opt ( on )
 
 using namespace std;
 
@@ -118,50 +118,19 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-// vector < vector < int > > edges;
-vector < int > edges[maxN];
-int dist[maxN];
-
-void dfs ( int n, int p ) {
-	for ( auto i: edges[n] ) {
-		if ( i == p )
-			continue;
-		dist[i] = dist[n] + 1;
-		dfs ( i, n );
-	}
-}
-
 int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	int n, ma, idx;
-	while ( cin >> n ) {
-		for ( int i = 0 ; i < n ; i++ )
-			edges[i].clear();
-
-		for ( int i = 1, u, v ; i < n ; i++ ) {
-			cin >> u >> v;
-			edges[u].pb ( v );
-			edges[v].pb ( u );
-		}
-
-		memset ( dist, INF, sizeof dist );
-		dist[0] = 0;
-		dfs ( 0, -1 );
-		ma = idx = -1;
-		for ( int i = 0 ; i < n ; i++ )
-			if ( dist[i] > ma )
-				ma = dist[i], idx = i;
-
-		memset ( dist, INF, sizeof dist );
-		dist[idx] = 0;
-		dfs ( idx, -1 );
-		ma = -1;
-		for ( int i = 0 ; i < n ; i++ )
-			ma = max ( ma, dist[i] );
-		cout << ma << endl;
+	string str;
+	LL ans = 0;
+	bool pos = true;
+	cin >> str;
+	for ( auto i: str ) {
+		pos ? ans += i - '0' : ans -= i - '0';
+		pos ^= 1;
 	}
+	cout << abs ( ans ) << endl;
 }
 

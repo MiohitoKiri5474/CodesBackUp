@@ -88,15 +88,15 @@
 
 #include<bits/stdc++.h>
 
-#pragma GCC optimize ("Ofast")
-#pragma loop_opt (on)
+#pragma GCC optimize ( "O3" )
+#pragma loop_opt ( on )
 
 using namespace std;
 
 // define pair
 typedef long long LL;
-typedef pair <LL, LL> pll;
-typedef pair <int, int> pii;
+typedef pair < LL, LL > pll;
+typedef pair < int, int > pii;
 #define F first
 #define S second
 #define mp make_pair
@@ -105,91 +105,72 @@ typedef pair <int, int> pii;
 #define pb push_back
 #define ep emplace_back
 #define endl '\n'
-#define GL(n) getline (cin, n)
+#define GL ( n ) getline ( cin, n )
 
 // define heap
-template <class T> using MaxHeap = priority_queue <T, vector <T>, less <T>>;
-template <class T> using MinHeap = priority_queue <T, vector <T>, greater <T>>;
+template < class T > using MaxHeap = priority_queue < T, vector < T >, less < T > >;
+template < class T > using MinHeap = priority_queue < T, vector < T >, greater < T > >;
 
 // define stringstream
 #define sstr stringstream
 
 // number~ remember change maxN
 #define INF 0x3f3f3f3f
-#define maxN 1000005
+#define maxN 105
 
-int seg[maxN << 2];
-
-inline LL read_int (void) {
-	LL num = 0;
-	char c = getchar_unlocked();
-	while ('0' <= c && c <='9') {
-		num = (num << 3) + (num << 1) + c - '0';
-		c = getchar_unlocked();
-	}
-	return num;
-}
-
-inline void print_int (LL num) {
-	if (!num) {
-		putchar ('0');
-		return;
-	}
-	int len = 0;
-	char str[20];
-	while (num > 0) {
-		str[len++] = num % 10 + 48;
-		num /= 10;
-	}
-	for (int i = len = 1; i >= 0; i-- )
-		putchar_unlocked (str[i]);
-}
-
-void update (int l, int r, int index, int value, int n) {
-	if (l == r)
-		seg[n] = value;
-	else {
-		int mid = (l + r) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
-		if (index <= mid)
-			update (l, mid, index, value, leftSon);
-		else
-			update (mid + 1, r, index, value, rightSon);
-
-		seg[n] = seg[leftSon] ^ seg[rightSon];
-	}
-}
-
-int query (int l, int r, int nowL, int nowR, int n) {
-	if (l <= nowL && nowR <= r)
-		return seg[n];
-	int mid = (nowL + nowR) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
-	if (r <= mid)
-		return query (l, r, nowL, mid, leftSon);
-	if (mid < l)
-		return query (l, r, mid + 1, nowR, rightSon);
-
-	return query (l, r, nowL, mid, leftSon) ^ query (l, r, mid + 1, nowR, rightSon);
-}
+int r[maxN], c[maxN], s[maxN], t[maxN];
+bool bomb[maxN][maxN];
+vector < pair < int, int > > rm;
 
 int main() {
-	ios::sync_with_stdio (false);
-	cin.tie (0);
-	cout.tie (0);
+	ios::sync_with_stdio ( false );
+	cin.tie ( 0 );
+	cout.tie ( 0 );
 
-	int n, m, t, l, r;
-	cin >> n >> m;
-	for (int i = 1, in; i <= n; i++) {
-		cin >> in;
-		update (1, n, i, in, 1);
+	int n, m, k, cnt = 0;
+	cin >> n >> m >> k;
+	for ( int i = 0 ; i < k ; i++ ) {
+		cin >> r[i] >> c[i] >> s[i] >> t[i];
+		r[i]++, c[i]++;
+		bomb[r[i]][c[i]] = true;
 	}
-	while (m--) {
-		t = read_int(), l = read_int(), r = read_int();
-		if (t)
-			update (1, n, l, r, 1);
-		else {
-			print_int (query (l, r, 1, n, 1));
-			putchar_unlocked ('\n');
+
+	while ( cnt < k ) {
+		// move
+		for ( int i = 0 ; i < k ; i++ ) {
+			if ( r[i] == 0 && c[i] == 0 )
+				continue;
+			r[i] += s[i], c[i] += t[i];
+			if ( r[i] <= 0 || r[i] >= n || c[i] <= 0 || c[i] >= n )
+				r[i] = c[i] = 0, cnt++;
+		}
+
+		for ( int i = 0 ; i < k ; i++ ) {
+			if ( r[i] == 0 && c[i] == 0 )
+				continue;
+			if ( bomb[r[i]][c[i]] ) {
+				rm.pb ( make_pair ( r[i], c[i] ) );
+				r[i] = c[i] = 0;
+				cnt++;
+			}
+		}
+
+		for ( int i = 0 ; i < rm.size() ; i++ ) {
+			bomb[rm[i].F][rm[i].S] = false;
+		}
+		rm.clear();
+
+		for ( int i = 0 ; i < k ; i++ ) {
+			if ( r[i] == 0 && c[i] == 0 )
+				continue;
+			bomb[r[i]][c[i]] = true;
 		}
 	}
+	int ans = 0;
+	for ( int i = 1 ; i <= n ; i++ )
+		for ( int j = 1 ; j <= m ; j++ )
+			if ( bomb[i][j] )
+				ans++;
+	cout << ans << endl;
 }
 
