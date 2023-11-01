@@ -118,55 +118,62 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 #define INF 0x3f3f3f3f
 #define maxN 100005
 
-inline LL _gcd ( LL a, LL b ) {
-	while ( a % b && b % a ) {
-		if ( a > b )
-			a %= b;
-		else
-			b %= a;
-
+inline int _gcd ( int a, int b ) {
+	a = abs ( a ), b = abs ( b );
+	while ( a % b && b % a )
 		a > b ? a %= b : b %= a;
-	}
 
 	return min ( a, b );
 }
 
-// 1. a/b > 0
-// 2. k % 2 == 0: f(k/2) = f(k) - 1 -> a / b > 1
-// 3. k % 2 == 1: f(k - 1) = 1 / f(k) -> a/b < 1
-
-signed main() {
+int main() {
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	LL a, b;
-	stack < char, vector < char > > st;
-	while ( cin >> a >> b ) {
-		int g = _gcd ( a, b );
-		a /= g, b /= g;
+	int a, b, c, d, l, g;
+	char op;
 
-		LL k = 1;
-		while ( a != 1 || b != 1 ) {
-			if ( a < b ) { // k % 2 == 1
-				st.push ( '+' );
-				swap ( a, b );
-			}
-			else { // k % 2 == 0
-				st.push ( '*' );
-				a -= b;
-			}
-		}
-		while ( !st.empty() ) {
-			if ( st.top() == '*' )
-				k *= 2;
+	while ( cin >> a >> b >> c >> d >> op ) {
+		if ( op == '+' || op == '-' ) {
+			l = b * d / _gcd ( b, d );
+			a *= l / b, c *= l / d;
+			if ( op == '+' )
+				a += c;
 			else
-				k++;
+				a -= c;
 
-			st.pop();
+			if ( a ) {
+				g = _gcd ( a, l );
+				a /= g, l /= g;
+				if ( l < 0 )
+					l *= -1, a *= -1;
+				cout << a;
+				if ( l != 1 )
+					cout << '/' << l;
+			}
+			else
+				cout << '0';
+		}
+		else {
+			if ( op == '/' )
+				swap ( c, d );
+			a *= c, b *= d;
+			
+			if ( a ) {
+				g = _gcd ( a, b );
+				a /= g, b /= g;
+				if ( b < 0 )
+					b *= -1, a *= -1;
+				cout << a;
+				if ( b != 1 )
+					cout << '/' << b;
+			}
+			else
+				cout << '0';
 		}
 
-		cout << k << endl;
+		cout << endl;
 	}
 }
 
