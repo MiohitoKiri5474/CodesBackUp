@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector < int > lib;
+int lib[50005];
 int n, k;
 
 inline bool calc ( int dis ) {
@@ -15,7 +15,7 @@ inline bool calc ( int dis ) {
 		if ( lib[n - 1] <= cent )
 			return true;
 
-		i = lower_bound ( lib.begin(), lib.end(), cent ) - lib.begin();
+		i = lower_bound ( lib, lib + n, cent ) - lib;
 		lib[i] <= cent ? i++ : i;
 	}
 	return false;
@@ -27,11 +27,12 @@ int main() {
 	
 	int l = 1, r, mid;
 	cin >> n >> k;
-	lib.resize ( n );
-	for ( auto &i: lib )
-		cin >> i;
-	sort ( lib.begin(), lib.end() );
-	r = lib.back() - lib[0];
+	for ( int i = 0 ; i < n ; i++ )
+		cin >> lib[i];
+
+	sort ( lib, lib + n );
+
+	r = lib[n - 1] - lib[0];
 	mid = ( l + r ) >> 1;
 	if ( k == 1 ) {
 		cout << r << endl;
