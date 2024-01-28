@@ -163,30 +163,29 @@ int main() {
 	cin.tie ( 0 );
 	cout.tie ( 0 );
 
-	vector < int > lib, s;
+	vector < int > input;
 	int n, N;
 	while ( cin >> n ) {
 		if ( !n )
 			break;
-		lib.resize ( n );
-		while ( cin >> lib[0] ) {
-			if ( !lib[0] )
+		input.resize ( n );
+		while ( cin >> input[0] ) {
+			if ( !input[0] )
 				break;
+
 			for ( int i = 1 ; i < n ; i++ )
-				cin >> lib[i];
+				cin >> input[i];
 
-			reverse ( lib.begin(), lib.end() );
-
-			s.clear();
+			stack < int > s;
 			N = n;
-			for ( auto i: lib ) {
-				if ( i != N )
-					s.push_back ( i );
+			for ( int i = n - 1 ; 0 <= i ; i-- ) {
+				if ( input[i] != N )
+					s.push ( input[i] );
 				else {
 					N--;
-					while ( !s.empty() && s.back() == N ) {
+					while ( !s.empty() && s.top() == N ) {
 						N--;
-						s.pop_back();
+						s.pop();
 					}
 				}
 			}
@@ -197,3 +196,6 @@ int main() {
 	}
 }
 
+// input:
+// stack: 1, 2, 5, 4, 3
+// target: 5
