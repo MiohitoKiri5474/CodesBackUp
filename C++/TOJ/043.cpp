@@ -90,8 +90,6 @@ int main(){
 		cin >> u >> v >> w;
 		edges[u].pb ( pii ( v, w ) );
 		edges[v].pb ( pii ( u, w ) );
-        // edges[u].pb ( v );
-        // edges[v].pb ( u );
 	}
 	cin >> s >> e;
 
