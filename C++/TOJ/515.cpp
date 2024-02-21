@@ -32,24 +32,12 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 inline void print_ans ( bool flag ) {
     cout << ( flag ? "Yes" : "No" ) << endl;
 }
-const int maxN = 200005;
-
-bool lib[maxN];
-vector < int > prime;
+const int maxN = 100005;
 
 signed main() {
     gura;
 
-    int k;
-    cin >> k;
-    k++;
-    lib[0] = lib[1] = true;
-    for ( int i = 2 ; i < maxN && prime.size() < k ; i++ ) {
-        if ( lib[i] )
-            continue;
-        prime.pb ( i );
-        for ( int j = i * 2 ; j < maxN ; j += i )
-            lib[j] = true;
-    }
-    cout << prime[k - 1] - 1 << endl;
+    string str;
+    cin >> str;
+    cout << ( str.size() == 4 && str[0] == str[1] && str[1] == str[2] && str[2] == str[3] && str[1] != '0' ? "GREAT!!" : "OAQ" ) << endl;
 }

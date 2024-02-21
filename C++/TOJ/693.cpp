@@ -32,24 +32,22 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 inline void print_ans ( bool flag ) {
     cout << ( flag ? "Yes" : "No" ) << endl;
 }
-const int maxN = 200005;
+const int maxN = 100005;
 
-bool lib[maxN];
-vector < int > prime;
-
+int days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+int weeks[] = { 6, 0, 1, 2, 3, 4, 5 };
 signed main() {
     gura;
 
-    int k;
-    cin >> k;
-    k++;
-    lib[0] = lib[1] = true;
-    for ( int i = 2 ; i < maxN && prime.size() < k ; i++ ) {
-        if ( lib[i] )
-            continue;
-        prime.pb ( i );
-        for ( int j = i * 2 ; j < maxN ; j += i )
-            lib[j] = true;
-    }
-    cout << prime[k - 1] - 1 << endl;
+    int y, m, d;
+    cin >> y >> m >> d;
+    // cout << "\t" << y << ' ' << m << ' ' << d << endl; // del
+    y -= 1600;
+    d += y * 365;
+    d += y / 400 - y / 100 + y / 4;
+    if ( ( y % 400 == 0 || ( y % 100 && y % 4 == 0 ) ) && ( m < 3 ) )
+        d--;
+    for ( int i = 1 ; i < m ; i++ )
+        d += days[i];
+    cout << weeks[d % 7] << endl;
 }
