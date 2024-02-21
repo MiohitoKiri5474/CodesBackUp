@@ -23,7 +23,7 @@ int main(){
 	}
 
 	for ( int i = 0 ; i < n ; i++ )
-		graph[1][1] = 0;
+		graph[i][i] = 0;
 
 	for ( int k = 0 ; k < n ; k++ )
 		for ( int i = 0 ; i < n ; i++ )
