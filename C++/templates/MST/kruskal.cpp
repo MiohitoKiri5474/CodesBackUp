@@ -39,6 +39,7 @@ vector < node > edges;
 vector < pii > mst[maxN];
 
 inline void Kruskal ( void ){
+    init();
 	sort ( edges.begin(), edges.end(), cmp );
 	for ( auto i: edges ){ // C++ 11寫法，不懂再來問
 		if ( same ( i.u, i.v ) )

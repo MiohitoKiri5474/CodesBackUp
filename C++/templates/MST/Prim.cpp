@@ -1,6 +1,7 @@
 // Prim
 // by. MiohitoKiri5474
 #include<bits/stdc++.h>
+#include <queue>
 
 using namespace std;
 
@@ -35,33 +36,39 @@ inline bool same ( int a, int b ){
 vector < pii > edges[maxN], mst[maxN];
 bool pushed[maxN];
 
+struct node {
+    int u, v, w;
+    inline bool operator < ( const node &b ) const {
+        return w < b.w;
+    }
+};
+
 inline void Pirm ( int n ){
-	priority_queue < pipii, vector < pipii >, greater < pipii > > pq;
-	for ( auto i: edges[0] )
-		pq.push ( pipii ( i.S, pii ( i.F, 0 ) ) );
+    priority_queue < node, vector < node >, greater < node > > pq;
+	for ( auto [i, dist]: edges[0] )
+		pq.push ( node { 0, i, dist } );
 	pushed[0] = true;
 	init();
 	while ( sz[find ( 0 )] != n ){
-		pipii top = pq.top();
+        auto [u, v, w] = pq.top();
 		pq.pop();
-		while ( same ( 0, top.S.F ) ){
-			top = pq.top();
+		while ( !pq.empty() && same ( u, v ) ){
+            u = pq.top().u, v = pq.top().v, w = pq.top().w;
 			pq.pop();
 		}
-		int u = top.S.F, v = top.S.S;
 
-		mst[u].pb ( pii ( v, top.F ) );
-		mst[v].pb ( pii ( u, top.F ) );
+		mst[u].pb ( pii ( v, w ) );
+		mst[v].pb ( pii ( u, w ) );
 		Union ( u, v );
 
 		if ( !pushed[u] ){
-			for ( auto i: edges[u] )
-				pq.push ( pipii ( i.S, pii ( i.F, u ) ) );
+			for ( auto [i, dist]: edges[u] )
+                pq.push ( node { u, i, dist } );
 			pushed[u] = true;
 		}
 		if ( !pushed[v] ){
-			for ( auto i: edges[v] )
-				pq.push ( pipii ( i.S, pii ( i.F, v ) ) );
+			for ( auto [i, dist]: edges[v] )
+                pq.push ( node { v, i, dist } );
 			pushed[v] = true;
 		}
 	}
