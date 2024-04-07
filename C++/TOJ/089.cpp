@@ -4,7 +4,7 @@ using namespace std;
 
 int dis[1000010];
 
-inline int find ( int a ){
+int find ( int a ){
 	return dis[a] == a ? a : dis[a] = find ( dis[a] );
 }
 

@@ -62,7 +62,7 @@ int query ( int l, int r, int nowL, int nowR, int n ){
 	else if ( nowMid < l ) // 2
 		return query ( l, r, nowMid + 1, nowR, rightSon );
 	else // 3
-		return max ( quert ( l, r, nowL, nowMid, leftSon ), query ( l, r, nowMid + 1, nowR, rightSon ) );
+		return max ( query ( l, r, nowL, nowMid, leftSon ), query ( l, r, nowMid + 1, nowR, rightSon ) );
 }
 /*
 
@@ -81,7 +81,7 @@ nowL   nowMid     nowR
 3:
 nowL   nowMid     nowR
 |_________|_________|
-    |___________|
+    |_____|_____|
     l           r
 
 */
