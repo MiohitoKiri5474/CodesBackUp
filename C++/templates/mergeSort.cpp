@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int data[8], swp[8];
+int arr[8], swp[8];
 
 // basic version
 void mergeSort ( int l, int r ){
@@ -15,19 +15,19 @@ void mergeSort ( int l, int r ){
 	mergeSort ( m + 1, r );
 	
 	while ( p <= m && q <= r )
-		if ( p <= m && data[p] <= data[q] )
-			swp[idx++] = data[p++];
+		if ( p <= m && arr[p] <= arr[q] )
+			swp[idx++] = arr[p++];
 		else
-			swp[idx++] = data[q++];
+			swp[idx++] = arr[q++];
 
 	while ( p <= m )
-		swp[idx++] = data[p++];
+		swp[idx++] = arr[p++];
 
 	while ( q <= r )
-		swp[idx++] = data[q++];
+		swp[idx++] = arr[q++];
 
 	for ( int i = l ; i <= r ; i++ )
-		data[i] = swp[i];
+		arr[i] = swp[i];
 }
 
 // advanced version
@@ -41,14 +41,14 @@ void mergeSort2 ( int l, int r ){
 	mergeSort2 ( m + 1, r );
 	
 	while ( p <= m || q <= r )
-		if ( p <= m && ( q > r || data[p] <= data[q] ) )
-			swap ( swp[index++], data[p++] );
+		if ( p <= m && ( q > r || arr[p] <= arr[q] ) )
+			swap ( swp[index++], arr[p++] );
 		else
-			swap ( swp[index++], data[q++] );
+			swap ( swp[index++], arr[q++] );
 	
-	memcpy ( data + l, swp + l, sizeof ( int ) * ( r - l + 1 ) );
+	memcpy ( arr + l, swp + l, sizeof ( int ) * ( r - l + 1 ) );
 	// memcpy ( 想要複製的位置ptr, 來源ptr, size );
-	// memcpy ( data, swp, sizeof ( data ) );
+	// memcpy ( arr, swp, sizeof ( arr ) );
 }
 
 int main(){
@@ -56,11 +56,11 @@ int main(){
 	cin.tie ( 0 );
 
 	for ( int i = 0 ; i < 8 ; i++ )
-		cin >> data[i];
+		cin >> arr[i];
 
 	mergeSort ( 0, 7 );
 
 	for ( int i = 0 ; i < 8 ; i++ )
-		cout << data[i] << ' ';
+		cout << arr[i] << ' ';
 	cout << '\n';
 }
