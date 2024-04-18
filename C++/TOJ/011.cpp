@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int data[2000005], stop[2000005];
+int arr[2000005], stop[2000005];
 long long ans;
 
 void mergeSort ( int l, int r ){
@@ -17,15 +17,15 @@ void mergeSort ( int l, int r ){
 	mergeSort ( m + 1, r );
 
 	while ( p <= m || q <= r ){
-		if ( p <= m && ( q > r || data[p] <= data[q] ) )
-			stop[index++] = data[p++];
+		if ( p <= m && ( q > r || arr[p] <= arr[q] ) )
+			stop[index++] = arr[p++];
 		else{
 			ans += ( m - p + 1 );
-			stop[index++] = data[q++];
+			stop[index++] = arr[q++];
 		}
 	}
 
-	memcpy ( data + l, stop + l, sizeof ( int ) * ( r - l + 1 ) );
+	memcpy ( arr + l, stop + l, sizeof ( int ) * ( r - l + 1 ) );
 }
 
 int main(){
@@ -36,7 +36,7 @@ int main(){
 	cin >> n;
 	ans = 0;
 	for ( int i = 0 ; i < n ; i++ )
-		cin >> data[i];
+		cin >> arr[i];
 
 	mergeSort ( 0, n - 1 );
 
