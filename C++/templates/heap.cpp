@@ -19,40 +19,46 @@ int main(){
 		push ( stop );
 	}
 
-	cout << heap[0] << '\n';
-
 	for ( int i = 0 ; i < 2 * n ; i++ )
 		cout << heap[i] << ' ';
 	cout << '\n';
+
+    while ( sz ) {
+        cout << heap[0] << ' ';
+        pop();
+    }
+    cout << '\n';
 }
 
 inline void push ( int x ){
+    heap[sz] = x;
 	int i = sz++;
+    while ( true ) {
+        int p = ( i - 1 ) / 2;
 
-	while ( i > 0 ){
-		int p = ( i - 1 ) / 2;
+        if ( p < 0 || heap[i] <= heap[p] )
+            break;
 
-		if ( heap[p] <= x )
-			break;
-		swap ( heap[i], heap[p] );
-		i = p;
-	}
+        swap ( heap[i], heap[p] );
+        i = p;
+    }
 }
 
 inline void pop ( void ){
-	int ret = heap[0];
+    swap ( heap[0], heap[sz] );
+    int i = 0;
+    while ( true ) {
+        int leftSon = i * 2 + 1, rightSon = i * 2 + 2, ma = i;
+        if ( leftSon < sz && heap[leftSon] > heap[ma] )
+            ma = leftSon;
+        if ( rightSon < sz && heap[rightSon] > heap[ma] )
+            ma = rightSon;
 
-	int x = heap[--sz];
+        if ( ma == i )
+            break;
 
-	int i = 0;
-	while ( i * 2 + i < sz ){
-		int leftSon = i * 2 + 1, rightSon = i * 2 + 2;
-		if ( rightSon < sz && heap[rightSon] < heap[leftSon] )
-			leftSon = rightSon;
-
-		if ( heap[leftSon] >= x )
-			break;
-		heap[i] = heap[leftSon];
-		i = leftSon;
-	}
+        swap ( heap[ma], heap[i] );
+        i = ma;
+    }
+    sz--;
 }
