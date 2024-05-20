@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 int heap[105], sz = 0;
 inline void push ( int x );
 inline void pop ( void );
