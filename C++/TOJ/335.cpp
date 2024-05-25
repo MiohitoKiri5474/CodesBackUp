@@ -36,11 +36,11 @@ const int maxN = 100005;
 const int maxLog = 20;
 
 struct node {
-	int u, v, w;
+    int u, v, w;
 };
 
 inline bool cmp ( node a, node b ) {
-	return a.w > b.w;
+    return a.w > b.w;
 }
 
 vector < node > edges;
@@ -55,21 +55,21 @@ inline void init ( void ) {
 
 // disjoin set
 int find ( int a ){
-	return dis[a] == a ? a : dis[a] = find ( dis[a] );
+    return dis[a] == a ? a : dis[a] = find ( dis[a] );
 }
 
 inline void Union ( int a, int b ) {
-	dis[find ( a )] = find ( b );
+    dis[find ( a )] = find ( b );
 }
 
 inline bool same ( int a, int b ) {
-	return find ( a ) == find ( b );
+    return find ( a ) == find ( b );
 }
 
 // Kruskal
 inline void Kruskal ( void ) {
     sort ( edges.begin(), edges.end(), cmp );
-	init();
+    init();
     for ( auto [u, v, w]: edges ) {
         if ( same ( u, v ) )
             continue;
@@ -80,57 +80,57 @@ inline void Kruskal ( void ) {
 }
 
 inline void dfs ( int d, int p, int dep ){
-	D[d] = dep++;
-	dp[d][0].F = p;
+    D[d] = dep++;
+    dp[d][0].F = p;
     for ( auto i: mst[d] ) {
-		if ( i.F == p )
-			continue;
-		dp[i.F][0] = pii ( d, i.S );
-		dfs ( i.F, d, dep );
-	}
+    	if ( i.F == p )
+    		continue;
+    	dp[i.F][0] = pii ( d, i.S );
+    	dfs ( i.F, d, dep );
+    }
 }
 
 inline void buildLCA ( void ){
-	for ( int i = 0 ; i < n ; i++ ) {
-		for ( int j = 0 ; j < maxLog ; j++ ) {
-			dp[i][j] = pii ( -1, INF );
-		}
-	}
+    for ( int i = 0 ; i < n ; i++ ) {
+    	for ( int j = 0 ; j < maxLog ; j++ ) {
+    		dp[i][j] = pii ( -1, INF );
+    	}
+    }
     memset ( D, 0, sizeof ( D ) );
-	dfs ( 0, -1, 0 );
-	for ( int k = 1 ; k < maxLog ; k++ ) {
-		for ( int i = 0 ; i < n ; i++ ) {
-			if ( dp[i][k - 1].F == -1 )
-				continue;
-			dp[i][k].F = dp[dp[i][k - 1].F][k - 1].F;
-			dp[i][k].S = min ( dp[i][k - 1].S, dp[dp[i][k - 1].F][k - 1].S );
-		}
-	}
+    dfs ( 0, -1, 0 );
+    for ( int k = 1 ; k < maxLog ; k++ ) {
+    	for ( int i = 0 ; i < n ; i++ ) {
+    		if ( dp[i][k - 1].F == -1 )
+    			continue;
+    		dp[i][k].F = dp[dp[i][k - 1].F][k - 1].F;
+    		dp[i][k].S = min ( dp[i][k - 1].S, dp[dp[i][k - 1].F][k - 1].S );
+    	}
+    }
 }
 
 inline int findLCA ( int x, int y ){
-	int mi = INF;
-	if ( D[x] < D[y] )
-		swap ( x, y );
+    int mi = INF;
+    if ( D[x] < D[y] )
+    	swap ( x, y );
 
     for ( int i = maxLog - 1 ; i >= 0 ; i-- ) {
-		if ( dp[x][i].F != -1 && D[dp[x][i].F] >= D[y] ){
-			mi = min ( mi, dp[x][i].S );
-			x = dp[x][i].F;
-		}
-	}
+    	if ( dp[x][i].F != -1 && D[dp[x][i].F] >= D[y] ){
+    		mi = min ( mi, dp[x][i].S );
+    		x = dp[x][i].F;
+    	}
+    }
 
-	if ( x == y )
-		return mi;
+    if ( x == y )
+    	return mi;
 
     for ( int i = maxLog - 1 ; i >= 0 ; i-- ) {
-		if ( dp[x][i].F != dp[y][i].F ){
-			mi = min ( mi, min ( dp[x][i].S, dp[y][i].S ) );
-			x = dp[x][i].F, y = dp[y][i].F;
-		}
-	}
+    	if ( dp[x][i].F != dp[y][i].F ){
+    		mi = min ( mi, min ( dp[x][i].S, dp[y][i].S ) );
+    		x = dp[x][i].F, y = dp[y][i].F;
+    	}
+    }
 
-	return min ( mi, min ( dp[x][0].S, dp[y][0].S ) );
+    return min ( mi, min ( dp[x][0].S, dp[y][0].S ) );
 }
 
 signed main() {
