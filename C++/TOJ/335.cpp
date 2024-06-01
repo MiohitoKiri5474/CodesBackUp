@@ -91,13 +91,12 @@ inline void dfs ( int d, int p, int dep ){
 }
 
 inline void buildLCA ( void ){
-    for ( int i = 0 ; i < n ; i++ ) {
-    	for ( int j = 0 ; j < maxLog ; j++ ) {
+    for ( int i = 0 ; i < n ; i++ )
+    	for ( int j = 0 ; j < maxLog ; j++ )
     		dp[i][j] = pii ( -1, INF );
-    	}
-    }
     memset ( D, 0, sizeof ( D ) );
     dfs ( 0, -1, 0 );
+
     for ( int k = 1 ; k < maxLog ; k++ ) {
     	for ( int i = 0 ; i < n ; i++ ) {
     		if ( dp[i][k - 1].F == -1 )
