@@ -79,7 +79,7 @@ inline void Kruskal ( void ) {
     }
 }
 
-inline void dfs ( int d, int p, int dep ){
+void dfs ( int d, int p, int dep ){
     D[d] = dep++;
     dp[d][0].F = p;
     for ( auto i: mst[d] ) {
