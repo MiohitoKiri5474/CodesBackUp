@@ -42,24 +42,15 @@ void op ( int k ) {
     cin >> ops;
     if ( k )
         op ( k - 1 );
-    if ( ops )
-        for ( int i = 0 ; i < ( n >> 1 ) ; i++ )
-            for ( int j = 0 ; j < m ; j++ )
-                swap ( arr[n - i - 1][j], arr[i][j] );
-    else {
-        vector < vector < int > > tmp;
-        vector < int > line;
-        for ( int j = m - 1 ; j >= 0 ; j-- ) {
-            line.clear();
-            for ( int i = 0 ; i < n ; i++ )
-                line.pb ( arr[i][j] );
-            tmp.pb ( line );
-        }
+    if ( !ops ) {
+        for ( int i = 0 ; i < max ( n, m ) ; i++ )
+            for ( int j = i + 1 ; j < max ( n, m ) ; j++ )
+                swap ( arr[i][j], arr[j][i] );
         swap ( n, m );
-        for ( int i = 0 ; i < n ; i++ )
-            for ( int j = 0 ; j < m ; j++ )
-                arr[i][j] = tmp[i][j];
     }
+    for ( int i = 0 ; i < ( n >> 1 ) ; i++ )
+        for ( int j = 0 ; j < m ; j++ )
+            swap ( arr[n - i - 1][j], arr[i][j] );
 }
 
 signed main() {
