@@ -35,15 +35,13 @@ inline void print_ans ( bool flag ) {
 const int maxN = 100005;
 
 int l;
-string k, ans;
+string k;
 set < string > lib;
 
 bool dfs ( string &tmp ) {
     if ( tmp.size() == l ) {
-        if ( lib.find ( tmp ) == lib.end() ) {
-            ans = tmp;
+        if ( lib.find ( tmp ) == lib.end() )
             return true;
-        }
         return false;
     }
 
@@ -56,31 +54,6 @@ bool dfs ( string &tmp ) {
     return false;
 }
 
-// dfs() -> dfs() -> dfs() -> dfs()
-// 第一個 dfs 負責枚舉第一個字元
-// 第二個 dfs 負責枚舉第二個字元
-// ...
-//
-//
-// a -> aa
-//   -> ac
-//   -> am
-// c -> ca
-//   -> cc
-//   -> cm
-// m -> ma
-//   -> mc
-//   -> mm
-//
-// d -> dd -> ddd
-//         -> ddp
-//   -> dp -> dpd
-//         -> dpp
-// p -> pd -> pdd
-//         -> pdp
-//   -> pp -> ppd
-//         -> ppp
-
 signed main() {
     gura;
 
@@ -88,19 +61,17 @@ signed main() {
     int len;
     cin >> k >> l >> str;
 
-    // 1. 將第一個字串切出來（第一個 window 的範圍）
     for ( int i = 0 ; i < l ; i++ )
         tmp += str[i];
     len = str.size();
     lib.insert ( tmp );
     for ( int i = l ; i < len ; i++ ) {
-        tmp.erase ( tmp.begin() ); // 將字串最前面的字元 erase 掉
-        tmp += str[i]; // 新增一個字元
-        lib.insert ( tmp ); // 加入 set 中
+        tmp.erase ( tmp.begin() );
+        tmp += str[i];
+        lib.insert ( tmp );
     }
 
     tmp = "";
     dfs ( tmp );
-    // cout << tmp << endl;
-    cout << ans << endl;
+    cout << tmp << endl;
 }
