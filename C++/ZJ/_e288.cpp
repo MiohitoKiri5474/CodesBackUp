@@ -1,5 +1,6 @@
 // by. MiohitoKiri5474
 #include <bits/stdc++.h>
+#include <unordered_map>
 
 #pragma GCC optimize ( "O3" )
 #pragma loop_opt ( on )
@@ -34,13 +35,38 @@ inline void print_ans ( bool flag ) {
 }
 const int maxN = 100005;
 
+inline int trans ( string str ) {
+    int res = 0;
+    for ( auto i: str ) {
+        if ( i <= 'Z' )
+            res |= ( ( LL ) 1 << ( LL ) ( i - 'A' ) );
+        else
+            res |= ( ( LL ) 1 << ( LL ) ( i - 'a' + 26 ) );
+    }
+    return res;
+}
+
+unordered_map < int, int > lib;
+
 signed main() {
     gura;
 
-    int a1, b1, c1, a2, b2, c2, n;
-    int ans = INT_MIN;
-    cin >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> n;
-    for ( int i = 0 ; i <= n ; i ++ )
-        ans = max ( ans, a1 * i * i + b1 * i + c1 + a2 * ( n - i ) * ( n - i ) + b2 * ( n - i ) + c2 );
-    cout << ans << endl;
+    int n, m, full, ans = 0;
+    string str;
+    cin >> m >> n;
+    full = ( ( LL ) 1 << m ) - 1;
+
+    for ( int i = 0 ; i < n ; i++ ) {
+        cin >> str;
+        lib[trans ( str )]++;
+    }
+
+    for ( auto [bits, cnt]: lib ) {
+        int another = full ^ bits;
+
+        if ( lib.find ( another ) != lib.end() )
+            ans += cnt * lib[another];
+    }
+
+    cout << ( ans >> 1 ) << endl;
 }

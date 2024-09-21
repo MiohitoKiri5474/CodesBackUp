@@ -119,15 +119,9 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 #define maxN 100005
 
 int calc ( string str ) { // 計算相異字母數量
-	/*
 	sort ( str.begin(), str.end() );
 	str.erase ( unique ( str.begin(), str.end() ), str.end() );
 	return str.size();
-	*/
-	set < char > s;
-	for ( char c: str )
-		s.insert ( c );
-	return ( int ) s.size();
 }
 
 bool cmp ( string a, string b ) {

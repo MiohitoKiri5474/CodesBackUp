@@ -1,5 +1,6 @@
 // by. MiohitoKiri5474
 #include <bits/stdc++.h>
+#include <algorithm>
 
 #pragma GCC optimize ( "O3" )
 #pragma loop_opt ( on )
@@ -37,10 +38,28 @@ const int maxN = 100005;
 signed main() {
     gura;
 
-    int a1, b1, c1, a2, b2, c2, n;
-    int ans = INT_MIN;
-    cin >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> n;
-    for ( int i = 0 ; i <= n ; i ++ )
-        ans = max ( ans, a1 * i * i + b1 * i + c1 + a2 * ( n - i ) * ( n - i ) + b2 * ( n - i ) + c2 );
+    int n, l, ans = 0;
+    set < int > len;
+    vector < pii > lib;
+    cin >> n >> l;
+    len.insert ( 0 );
+    len.insert ( l );
+    lib.resize ( n );
+    for ( auto &[f, s]: lib )
+        cin >> f >> s;
+    sort ( lib.begin(), lib.end(),
+          []( pii &a, pii &b ) {
+            return a.S < b.S;
+          }
+    );
+    for ( int i = 0 ; i < n ; i++ ) {
+        len.insert ( lib[i].first );
+        auto tmp1 = len.find ( lib[i].first );
+    }
+    for ( auto [f, s]: lib ) {
+        len.insert ( f );
+        auto tmp1 = len.find ( f ), tmp2 = tmp1;
+        ans += *( ++tmp1 ) - *( --tmp2 );
+    }
     cout << ans << endl;
 }

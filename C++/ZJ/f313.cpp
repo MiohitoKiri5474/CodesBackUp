@@ -78,20 +78,4 @@ int main() {
 		}
 
 	cout << mi << endl << ma << endl;
-
-	for ( int i = 0 ; i < r ; i++ ) {
-		for ( int j = 0 ; j < c ; j++ ) {
-			// count first
-		}
-	}
-
-	for ( int i = 0 ; i < r ; i++ ) {
-		for ( int j = 0 ; j < c ; j++ ) {
-			// calc
-		}
-	}
 }
-
-
-// 8, 3, -1
-// 6 , -1, 2

@@ -32,15 +32,35 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 inline void print_ans ( bool flag ) {
     cout << ( flag ? "Yes" : "No" ) << endl;
 }
-const int maxN = 100005;
+const int maxN = 55;
+
+int q[maxN][maxN], tmp[maxN][maxN];
 
 signed main() {
     gura;
 
-    int a1, b1, c1, a2, b2, c2, n;
-    int ans = INT_MIN;
-    cin >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> n;
-    for ( int i = 0 ; i <= n ; i ++ )
-        ans = max ( ans, a1 * i * i + b1 * i + c1 + a2 * ( n - i ) * ( n - i ) + b2 * ( n - i ) + c2 );
-    cout << ans << endl;
+    int n, m, k, mi = INF, cnt;
+    cin >> n >> m >> k;
+    for ( int i = 0 ; i < n ; i++ )
+        for ( int j = 0 ; j < m ; j++ )
+            cin >> q[i][j];
+
+    while ( k-- ) {
+        cnt = 0;
+        memset ( tmp, 0, sizeof tmp );
+        for ( int i = 0, city ; i < n ; i++ ) {
+            cin >> city;
+            for ( int j = 0 ; j < m ; j++ )
+                tmp[city][j] += q[i][j];
+        }
+        for ( int i = 0 ; i < m ; i++ ) {
+            for ( int j = 0 ; j < m ; j++ ) {
+                // if ( i == j )
+                //     cnt += tmp[i][j];
+                cnt += ( i == j ? tmp[i][j] : min ( tmp[i][j], ( int ) 1000 ) * 3 + max ( ( int ) 0, tmp[i][j] - 1000 ) * 2 );
+            }
+        }
+        mi = min ( cnt, mi );
+    }
+    cout << mi << endl;
 }

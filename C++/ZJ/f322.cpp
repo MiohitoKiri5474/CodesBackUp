@@ -37,10 +37,5 @@ const int maxN = 100005;
 signed main() {
     gura;
 
-    int a1, b1, c1, a2, b2, c2, n;
-    int ans = INT_MIN;
-    cin >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> n;
-    for ( int i = 0 ; i <= n ; i ++ )
-        ans = max ( ans, a1 * i * i + b1 * i + c1 + a2 * ( n - i ) * ( n - i ) + b2 * ( n - i ) + c2 );
-    cout << ans << endl;
+        
 }

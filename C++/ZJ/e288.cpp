@@ -130,7 +130,8 @@ inline LL transform ( string str ) {
 	return res;
 }
 
-unordered_map < LL, LL > lib;
+// unordered_map < LL, LL > lib;
+map < LL, LL > lib;
 
 int main() {
 	ios::sync_with_stdio ( false );

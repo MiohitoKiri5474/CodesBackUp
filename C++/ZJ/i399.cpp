@@ -34,13 +34,32 @@ inline void print_ans ( bool flag ) {
 }
 const int maxN = 100005;
 
+bool cmp ( int a, int b ) {
+    return a > b;
+}
+
+map < int, int > lib;
+vector < int > v;
+
 signed main() {
     gura;
 
-    int a1, b1, c1, a2, b2, c2, n;
-    int ans = INT_MIN;
-    cin >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> n;
-    for ( int i = 0 ; i <= n ; i ++ )
-        ans = max ( ans, a1 * i * i + b1 * i + c1 + a2 * ( n - i ) * ( n - i ) + b2 * ( n - i ) + c2 );
-    cout << ans << endl;
+    #define a v[0]
+    #define b v[1]
+    #define c v[2]
+    vector < int > v ( 3 );
+    for ( auto &i: v )
+        cin >> i;
+    sort ( v.begin(), v.end(), []( int x, int y ) { return x > y; } );
+    sort ( v.begin(), v.end(), cmp );
+    if ( a == b && b == c )
+        cout << "3";
+    else if ( a == b || b == c || a == c )
+        cout << "2";
+    else
+        cout << "1";
+    v.erase ( unique ( v.begin(), v.end() ), v.end() );
+    for ( auto i: v )
+        cout << ' ' << i;
+    cout << endl;
 }
