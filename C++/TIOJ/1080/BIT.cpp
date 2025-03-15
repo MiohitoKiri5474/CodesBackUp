@@ -24,18 +24,23 @@ int main(){
 	ios::sync_with_stdio ( false );
 	cin.tie ( 0 );
 
-	int stop, ans;
+	long long ans;
+    vector < int > v, lib;
 	while ( cin >> n ){
 		if ( !n )
 			break;
 
 		memset ( BIT, 0, sizeof ( BIT ) );
 		ans = 0;
+        v.resize ( n );
+        for ( auto &i: v ) cin >> i;
+        lib = v;
+        sort ( lib.begin(), lib.end() );
 
-		for ( int i = 0 ; i < n ; i++ ){
-			cin >> stop;
-			ans += i - sum ( stop );
-			add ( stop, 1 );
+		for ( int i = 0, stp ; i < n ; i++ ){
+            stp = lower_bound ( lib.begin(), lib.end(), v[i] ) - lib.begin();
+			ans += i - sum ( stp );
+			add ( stp, 1 );
 		}
 
 		cout << ans << '\n';
