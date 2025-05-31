@@ -76,29 +76,40 @@ template < class T > using MinHeap = priority_queue < T, vec < T >, greater < T 
 
 int seg[maxN << 2];
 
-void update ( int l, int r, int index, int value, int n ){
+void build ( int l, int r, int n ) {
+    if ( l == r )
+        cin >> seg[n];
+    else{
+        int mid = ( l + r ) >> 1;
+        build ( l, mid, n << 1 );
+        build ( mid + 1, r, ( n << 1 ) | 1 );
+        seg[n] = max ( seg[n << 1], seg[( n << 1 ) | 1] );
+    }
+}
+
+void update ( int l, int r, int index, int value, int n ) {
 	if ( l == r )
 		seg[n] = value;
 	else{
-		int mid = ( l + r ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
+		int mid = ( l + r ) >> 1;
 		if ( index <= mid )
-			update ( l, mid, index, value, leftSon );
+			update ( l, mid, index, value, n << 1 );
 		else
-			update ( mid + 1, r, index, value, rightSon );
+			update ( mid + 1, r, index, value, ( n << 1 ) | 1 );
 
-		seg[n] = max ( seg[leftSon], seg[rightSon] );
+		seg[n] = max ( seg[n << 1], seg[( n << 1 ) | 1] );
 	}
 }
 
-int query ( int l, int r, int nowL, int nowR, int n ){
+int query ( int l, int r, int nowL, int nowR, int n ) {
 	if ( l <= nowL && nowR <= r )
 		return seg[n];
-	int mid = ( nowL + nowR ) >> 1, leftSon = n << 1, rightSon = leftSon | 1;
+	int mid = ( nowL + nowR ) >> 1;
 	if ( r <= mid )
-		return query ( l, r, nowL, mid, leftSon );
-	else if ( mid < l )
-		return query ( l, r, mid + 1, nowR, rightSon );
-	return max ( query ( l, mid, nowL, mid, leftSon ), query ( mid + 1, r, mid + 1, nowR, rightSon ) );
+		return query ( l, r, nowL, mid, n << 1 );
+	if ( mid < l )
+		return query ( l, r, mid + 1, nowR, ( n << 1 ) | 1 );
+	return max ( query ( l, mid, nowL, mid, n << 1 ), query ( mid + 1, r, mid + 1, nowR, ( n << 1 ) | 1 ) );
 }
 
 int main(){
@@ -109,21 +120,16 @@ int main(){
 	int n, m, in, l, r;
 	char type;
 	cin >> n;
-	for ( int i = 1 ; i <= n ; i++ ){
-		cin >> in;
-		update ( 1, n, i, in, 1 );
-	}
+    build ( 1, n, 1 );
 	cin >> m;
-	while ( m-- ){
+	while ( m-- ) {
 		cin >> type >> l >> r;
 		if ( type == 'C' )
 			update ( 1, n, l, r, 1 );
 		else{
 			if ( l > r )
 				swap ( l, r );
-			int res = query ( l, r, 1, n, 1 );
-			res /= 2;
-			cout << res << '\n';
+			cout << ( query ( l, r, 1, n, 1 ) >> 1 ) << '\n';
 		}
 	}
 }
