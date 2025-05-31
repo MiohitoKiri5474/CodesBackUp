@@ -23,14 +23,14 @@ inline void SPFA ( int start ){
 		int now = q.front();
 		q.pop();
 		inQueue[now] = false; // 紀錄已經取出
-		random_shuffle ( edges[now].begin(), edges[now].end() );
-		for ( auto i: edges[now] ){ // 跑過所有可以被now連結到的點
-			if ( dis[i.first] > dis[now] + i.second ){
-				dis[i.first] = dis[now] + i.second;
-				if ( !inQueue[i.first] ){
+		// random_shuffle ( edges[now].begin(), edges[now].end() );
+		for ( auto [to, w]: edges[now] ){ // 跑過所有可以被now連結到的點
+			if ( dis[to] > dis[now] + w ){
+				dis[to] = dis[now] + w;
+				if ( !inQueue[to] ){
 					// 如果點沒有在queue中，再加入queue，並記錄已經在queue中
-					inQueue[i.first] = true;
-					q.push ( i.first );
+					inQueue[to] = true;
+					q.push ( to );
 				}
 			}
 		}
