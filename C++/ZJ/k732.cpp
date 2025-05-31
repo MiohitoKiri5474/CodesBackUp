@@ -136,7 +136,6 @@ int main() {
 	cout.tie ( 0 );
 
 	vector < pii > ans;
-	// vector < pair < int, int > > ans;
 	cin >> m >> n;
 
 	for ( int j = 0 ; j < m ; j++ )
@@ -153,8 +152,5 @@ int main() {
 	cout << ans.size() << endl;
 	for ( auto [_f, _s]: ans )
 		cout << _s << ' ' << _f << endl;
-
-	for ( int i = 0 ; i < ans.size() ; i++ )
-		cout << ans[i].second << ' ' << ans[i].first << endl;
 }
 
