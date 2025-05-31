@@ -26,56 +26,35 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 
 // number definition
 #define INF 0x3f3f3f3f
-
-// some defiine for programing contest
-// #define int LL
-inline void print_ans ( bool flag ) {
-    cout << ( flag ? "Yes" : "No" ) << endl;
-}
-const int maxN = 2000005;
-
-int seg[maxN << 1];
-
-inline void init ( int &n ) {
-    for ( int i = 0; i < n; i++ )
-        cin >> seg[i + n];
-    for ( int i = n - 1; i > 0; i-- )
-        seg[i] = max ( seg[i << 1], seg[i << 1 | 1] );
-}
-
-void update ( int &p, int &v, int &n ) {
-    for ( seg[p += n - 1] = v; p > 1; p >>= 1 )
-        seg[p >> 1] = max ( seg[( p >> 1 ) << 1], seg[p | 1] );
-}
-
-int query ( int &l, int &r, int &n ) {
-    int res = -2147483648;
-    for ( l += n - 1, r += n - 1; l <= r; l >>= 1, r >>= 1 ) {
-        if ( l & 1 )
-            res = max ( res, seg[l++]) ;
-        if ( r & 1 ^ 1 )
-            res= max ( res, seg[r--] );
-    }
-
-    return res;
-}
+int seg[4000005];
 
 signed main() {
     gura;
 
-    int n, m, l, r;
+    int n, m, l, r, res;
     char op;
     cin >> n;
-    init ( n );
+    for ( int i = 0; i < n; i++ )
+        cin >> seg[i + n];
+    for ( int i = n - 1; i > 0; i-- )
+        seg[i] = max ( seg[i << 1], seg[i << 1 | 1] );
     cin >> m;
     while ( m-- ) {
         cin >> op >> l >> r;
         if ( op == 'C' )
-            update ( l, r, n );
+            for ( seg[l += n - 1] = r; l > 1; l >>= 1 )
+                seg[l >> 1] = max ( seg[( l >> 1 ) << 1], seg[l | 1] );
         else {
             if ( l > r )
                 swap ( l, r );
-            cout << query ( l, r, n ) / 2 << '\n';
+            res = -2147483648;
+            for ( l += n - 1, r += n - 1; l <= r; l >>= 1, r >>= 1 ) {
+                if ( l & 1 )
+                    res = max ( res, seg[l++] );
+                if ( r & 1 ^ 1 )
+                    res = max ( res, seg[r--] );
+            }
+            cout << res / 2 << '\n';
         }
     }
 }
