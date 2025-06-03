@@ -26,7 +26,39 @@ template < class T > using MinHeap = priority_queue < T, vector < T >, greater <
 
 // number definition
 #define INF 0x3f3f3f3f
-int seg[4000005];
+
+struct ZKW {
+    int base;
+    vector <int> seg;
+
+    ZKW (int n): base (n) {
+        seg.resize(base << 1, 0);
+        base--;
+    }
+
+    ZKW (int n, vector <int> &v): base (n) {
+        seg.resize(base << 1, 0);
+
+        memcpy (&seg[base--], v.data(), n * sizeof(int));
+        for (int i = base; i > 0; i--) {
+            seg[i] = max (seg[i << 1], seg[i << 1 | 1]);
+        }
+    }
+
+    inline void update ( int pos, int val) {
+        for (seg[pos += base] = val, pos >>= 1; pos > 1; pos >>= 1)
+            seg[pos] = max (seg[pos << 1], seg[pos << 1 | 1]);
+    }
+
+    inline int query (int l, int r) {
+        int res = -2147483648;
+        for (l += base, r += base; l < r; l >>= 1, r >>= 1) {
+            if (l & 1) res = max (res, seg[l++]);
+            if (r & 1) res = max (res, seg[--r]);
+        }
+        return res;
+    }
+};
 
 signed main() {
     gura;
@@ -34,27 +66,19 @@ signed main() {
     int n, m, l, r, res;
     char op;
     cin >> n;
-    for ( int i = 0; i < n; i++ )
-        cin >> seg[i + n];
-    for ( int i = n - 1; i > 0; i-- )
-        seg[i] = max ( seg[i << 1], seg[i << 1 | 1] );
+    vector < int > input ( n );
+    for (auto &i: input)
+        cin >> i;
+    ZKW seg (n, input);
     cin >> m;
     while ( m-- ) {
         cin >> op >> l >> r;
         if ( op == 'C' )
-            for ( seg[l += n - 1] = r; l > 1; l >>= 1 )
-                seg[l >> 1] = max ( seg[( l >> 1 ) << 1], seg[l | 1] );
+            seg.update (l, r);
         else {
             if ( l > r )
                 swap ( l, r );
-            res = -2147483648;
-            for ( l += n - 1, r += n - 1; l <= r; l >>= 1, r >>= 1 ) {
-                if ( l & 1 )
-                    res = max ( res, seg[l++] );
-                if ( r & 1 ^ 1 )
-                    res = max ( res, seg[r--] );
-            }
-            cout << res / 2 << '\n';
+            cout << seg.query (l, r + 1) / 2 << '\n';
         }
     }
 }
