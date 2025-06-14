@@ -44,7 +44,7 @@ inline void Pirm(int n) {
 		pq.push(node{0, i, dist});
 	pushed[0] = true;
 	init();
-	while (sz[find(0)] != n) {
+	while (!pq.empty() && sz[find(0)] != n) {
 		auto [u, v, w] = pq.top();
 		pq.pop();
 		while (!pq.empty() && same(u, v)) {
