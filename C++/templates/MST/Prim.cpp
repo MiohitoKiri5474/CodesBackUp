@@ -35,6 +35,7 @@ bool pushed[maxN];
 struct node {
 	int u, v, w;
 	inline bool operator<(const node &b) const { return w < b.w; }
+	inline bool operator>(const node &b) const { return w > b.w; }
 };
 
 inline void Pirm(int n) {
