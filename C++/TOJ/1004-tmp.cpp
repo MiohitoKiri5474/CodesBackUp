@@ -37,26 +37,41 @@ const int maxN = 100005;
 struct node {
     node *l, *r;
     vector<int> v;
+    MinHeap<int> pq;
 
     node() {
         l = r = nullptr;
     }
+
+    inline void prepare (void);
 } *root = nullptr;
 
 int K;
 vector<int> query_tmp;
 unordered_map<int, int> ans;
 
+inline void node::prepare() {
+    if (!pq.empty()) {
+        while (!pq.empty()) {
+            v.pb(pq.top());
+            pq.pop();
+        }
+        reverse(v.begin(), v.end());
+    }
+}
+
 inline void merge(vector<int> &parent, vector<int> &child) {
     vector<int> tmp;
-    auto pPtr = parent.begin(), cPtr = child.begin();
-    while (pPtr != parent.end() && cPtr != child.end() && tmp.size() < K)
-        tmp.pb(*pPtr > *cPtr ? *pPtr++ : *cPtr++);
+    auto pIT = parent.begin(), cIT = child.begin();
+    while (tmp.size() < K && pIT != parent.end() && cIT != child.end())
+        tmp.pb(*pIT > *cIT ? *pIT++ : *cIT++);
 
-    while (pPtr != parent.end() && tmp.size() < K)
-        tmp.pb(*pPtr++);
-    while (cPtr != child.end() && tmp.size() < K)
-        tmp.pb(*cPtr++);
+    while (tmp.size() < K && pIT != parent.end())
+        tmp.pb(*pIT++);
+
+    while (tmp.size() < K && cIT != child.end())
+        tmp.pb(*cIT++);
+
     swap(child, tmp);
 }
 
@@ -64,7 +79,9 @@ void modify(int l, int r, int nowL, int nowR, int value, node *&n) {
     if (!n)
         n = new node();
     if (l <= nowL && nowR <= r) {
-        n->v.pb(value);
+        n->pq.push(value);
+        if (n->pq.size() > K)
+            n->pq.pop();
         return;
     }
     int mid = (nowL + nowR) >> 1;
@@ -81,7 +98,10 @@ void modify(int l, int r, int nowL, int nowR, int value, node *&n) {
 void query(int l, int r, int index, node *n) {
     if (!n)
         return;
-    merge(n->v, query_tmp);
+    if (!(n->pq.empty()))
+        n->prepare();
+    if (!n->v.empty())
+        merge(n->v, query_tmp);
     if (l == r)
         return;
     int mid = (l + r) >> 1;
@@ -91,39 +111,27 @@ void query(int l, int r, int index, node *n) {
         query(mid + 1, r, index, n->r);
 }
 
-void prepare(int l, int r, node *n) {
-    if (!n)
-        return;
-    sort(n->v.begin(), n->v.end(), greater<int>());
-    if (n->v.size() > K)
-        n->v.resize(K);
-    if (l == r)
-        return;
-    int mid = (l + r) >> 1;
-    prepare(l, mid, n->l);
-    prepare(mid + 1, r, n->r);
-}
-
 signed main() {
     gura;
 
-    int n, q, x;
+    int n, q, x, L = 2147483647, R = -2147483648;
     cin >> n >> q >> K;
     for (int i = 0, l, r, w; i < n; i++) {
         cin >> l >> r >> w;
         if (w < 0)
             continue;
         modify(l, r, 1, 1000000000, w, root);
+        L = min(L, l);
+        R = max(R, r);
     }
-    prepare(1, 1000000000, root);
     while (q--) {
         cin >> x;
-        if (ans.find(x) == ans.end()) {
+        if (L <= x && x <= R && ans.find(x) == ans.end()) {
             query_tmp.clear();
             query(1, 1000000000, x, root);
             ans[x] = 0;
-            for (auto &i : query_tmp)
-                ans[x] += i;
+            for (auto &v : query_tmp)
+                ans[x] += v;
         }
         cout << ans[x] << ' ';
     }
